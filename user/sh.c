@@ -1,3 +1,17 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/sh.c
+ *
+ * Explicacion clara y facil:
+ *   - Este archivo implementa el shell de xv6.
+ *   - Convierte texto en estructuras de comando y luego las ejecuta.
+ *
+ * Guia rapida de lectura:
+ *   1) Las estructuras de comando modelan EXEC, REDIR, PIPE, LIST y BACK.
+ *   2) Las funciones parse* construyen un arbol de ejecucion.
+ *   3) runcmd interpreta ese arbol y lanza procesos con fork/exec.
+ */
+
 // Shell.
 
 #include "kernel/types.h"
@@ -58,6 +72,12 @@ void runcmd(struct cmd *) __attribute__((noreturn));
 void
 runcmd(struct cmd *cmd)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: runcmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   int p[2];
   struct backcmd *bcmd;
   struct execcmd *ecmd;
@@ -134,6 +154,12 @@ runcmd(struct cmd *cmd)
 int
 getcmd(char *buf, int nbuf)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: getcmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   write(2, "$ ", 2);
   memset(buf, 0, nbuf);
   gets(buf, nbuf);
@@ -145,6 +171,12 @@ getcmd(char *buf, int nbuf)
 int
 main(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: main
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   static char buf[100];
   int fd;
 
@@ -180,6 +212,12 @@ main(void)
 void
 panic(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: panic
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   fprintf(2, "%s\n", s);
   exit(1);
 }
@@ -187,6 +225,12 @@ panic(char *s)
 int
 fork1(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fork1
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   int pid;
 
   pid = fork();
@@ -201,6 +245,12 @@ fork1(void)
 struct cmd *
 execcmd(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: execcmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct execcmd *cmd;
 
   cmd = malloc(sizeof(*cmd));
@@ -212,6 +262,12 @@ execcmd(void)
 struct cmd *
 redircmd(struct cmd *subcmd, char *file, char *efile, int mode, int fd)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: redircmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct redircmd *cmd;
 
   cmd = malloc(sizeof(*cmd));
@@ -228,6 +284,12 @@ redircmd(struct cmd *subcmd, char *file, char *efile, int mode, int fd)
 struct cmd *
 pipecmd(struct cmd *left, struct cmd *right)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pipecmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct pipecmd *cmd;
 
   cmd = malloc(sizeof(*cmd));
@@ -241,6 +303,12 @@ pipecmd(struct cmd *left, struct cmd *right)
 struct cmd *
 listcmd(struct cmd *left, struct cmd *right)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: listcmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct listcmd *cmd;
 
   cmd = malloc(sizeof(*cmd));
@@ -254,6 +322,12 @@ listcmd(struct cmd *left, struct cmd *right)
 struct cmd *
 backcmd(struct cmd *subcmd)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: backcmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct backcmd *cmd;
 
   cmd = malloc(sizeof(*cmd));
@@ -271,6 +345,12 @@ char symbols[] = "<|>&;()";
 int
 gettoken(char **ps, char *es, char **q, char **eq)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: gettoken
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   char *s;
   int ret;
 
@@ -316,6 +396,12 @@ gettoken(char **ps, char *es, char **q, char **eq)
 int
 peek(char **ps, char *es, char *toks)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: peek
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   char *s;
 
   s = *ps;
@@ -333,6 +419,12 @@ struct cmd *nulterminate(struct cmd *);
 struct cmd *
 parsecmd(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: parsecmd
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   char *es;
   struct cmd *cmd;
 
@@ -350,6 +442,12 @@ parsecmd(char *s)
 struct cmd *
 parseline(char **ps, char *es)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: parseline
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct cmd *cmd;
 
   cmd = parsepipe(ps, es);
@@ -367,6 +465,12 @@ parseline(char **ps, char *es)
 struct cmd *
 parsepipe(char **ps, char *es)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: parsepipe
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct cmd *cmd;
 
   cmd = parseexec(ps, es);
@@ -380,6 +484,12 @@ parsepipe(char **ps, char *es)
 struct cmd *
 parseredirs(struct cmd *cmd, char **ps, char *es)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: parseredirs
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   int tok;
   char *q, *eq;
 
@@ -405,6 +515,12 @@ parseredirs(struct cmd *cmd, char **ps, char *es)
 struct cmd *
 parseblock(char **ps, char *es)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: parseblock
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   struct cmd *cmd;
 
   if (!peek(ps, es, "("))
@@ -421,6 +537,12 @@ parseblock(char **ps, char *es)
 struct cmd *
 parseexec(char **ps, char *es)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: parseexec
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   char *q, *eq;
   int tok, argc;
   struct execcmd *cmd;
@@ -455,6 +577,12 @@ parseexec(char **ps, char *es)
 struct cmd *
 nulterminate(struct cmd *cmd)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: nulterminate
+ * Explicacion facil:
+ *   Esta funcion participa en el flujo interno del shell de xv6.
+ *   Conviene seguir que token procesa y que nodo de comando construye o ejecuta.
+ */
   int i;
   struct backcmd *bcmd;
   struct execcmd *ecmd;

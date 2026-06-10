@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: mkfs/mkfs.c
+ *
+ * Explicacion clara y facil:
+ *   - Constructor de imagen de sistema de archivos.
+ *   - Genera fs.img inicial creando inodos, directorios y copiando binarios de usuario antes de arrancar xv6.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -50,6 +67,12 @@ void die(const char *);
 ushort
 xshort(ushort x)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: xshort
+ * Explicacion facil:
+ *   xshort cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   ushort y;
   uchar *a = (uchar *)&y;
   a[0] = x;
@@ -60,6 +83,12 @@ xshort(ushort x)
 uint
 xint(uint x)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: xint
+ * Explicacion facil:
+ *   xint cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint y;
   uchar *a = (uchar *)&y;
   a[0] = x;
@@ -72,6 +101,12 @@ xint(uint x)
 int
 main(int argc, char *argv[])
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: main
+ * Explicacion facil:
+ *   Punto de entrada en este modulo de mkfs.
+ *   Coordina inicializacion, llamadas principales y el flujo base de ejecucion.
+ */
   int i, cc, fd;
   uint rootino, inum, off;
   struct dirent de;
@@ -181,6 +216,12 @@ main(int argc, char *argv[])
 void
 wsect(uint sec, void *buf)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: wsect
+ * Explicacion facil:
+ *   wsect cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (lseek(fsfd, sec * BSIZE, 0) != sec * BSIZE)
     die("lseek");
   if (write(fsfd, buf, BSIZE) != BSIZE)
@@ -190,6 +231,12 @@ wsect(uint sec, void *buf)
 void
 winode(uint inum, struct dinode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: winode
+ * Explicacion facil:
+ *   winode cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char buf[BSIZE];
   uint bn;
   struct dinode *dip;
@@ -204,6 +251,12 @@ winode(uint inum, struct dinode *ip)
 void
 rinode(uint inum, struct dinode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: rinode
+ * Explicacion facil:
+ *   rinode cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char buf[BSIZE];
   uint bn;
   struct dinode *dip;
@@ -217,6 +270,12 @@ rinode(uint inum, struct dinode *ip)
 void
 rsect(uint sec, void *buf)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: rsect
+ * Explicacion facil:
+ *   rsect cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (lseek(fsfd, sec * BSIZE, 0) != sec * BSIZE)
     die("lseek");
   if (read(fsfd, buf, BSIZE) != BSIZE)
@@ -226,6 +285,12 @@ rsect(uint sec, void *buf)
 uint
 ialloc(ushort type)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: ialloc
+ * Explicacion facil:
+ *   Reserva recursos necesarios para mkfs.
+ *   Si no hay espacio suficiente, falla de forma controlada para mantener consistencia.
+ */
   uint inum = freeinode++;
   struct dinode din;
 
@@ -240,6 +305,12 @@ ialloc(ushort type)
 void
 balloc(int used)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: balloc
+ * Explicacion facil:
+ *   Reserva recursos necesarios para mkfs.
+ *   Si no hay espacio suficiente, falla de forma controlada para mantener consistencia.
+ */
   uchar buf[BSIZE];
   int i;
 
@@ -258,6 +329,12 @@ balloc(int used)
 void
 iappend(uint inum, void *xp, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iappend
+ * Explicacion facil:
+ *   iappend cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *p = (char *)xp;
   uint fbn, off, n1;
   struct dinode din;
@@ -302,6 +379,12 @@ iappend(uint inum, void *xp, int n)
 void
 die(const char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: die
+ * Explicacion facil:
+ *   die cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   perror(s);
   exit(1);
 }

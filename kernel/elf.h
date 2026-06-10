@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/elf.h
+ *
+ * Explicacion clara y facil:
+ *   - Formato ELF usado por exec.
+ *   - Define cabeceras y constantes para leer binarios ELF al cargar programas de usuario en memoria.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // Format of an ELF executable file
 
 #define ELF_MAGIC 0x464C457FU // "\x7FELF" in little endian

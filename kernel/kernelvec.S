@@ -1,19 +1,21 @@
+        # AUTOCOMMENT-XV6 (kernelvec.S)
         #
-        # interrupts and exceptions while in supervisor
-        # mode come here.
-        #
-        # the current stack is a kernel stack.
-        # push registers, call kerneltrap().
-        # when kerneltrap() returns, restore registers, return.
+        # Entrada de traps cuando ya estamos en modo supervisor.
+        # Flujo:
+        #   1) Guardar registros volatiles en el stack de kernel.
+        #   2) Llamar a kerneltrap() (C) para despachar causa.
+        #   3) Restaurar contexto y volver con sret.
         #
 .globl kerneltrap
 .globl kernelvec
 .align 4
 kernelvec:
-        # make room to save registers.
+        # Reserva 256 bytes para marco temporal de registros.
         addi sp, sp, -256
 
-        # save caller-saved registers.
+        # Guarda registros caller-saved.
+        # No se guarda sp (ya se usa como base del marco) ni tp
+        # porque tp contiene hartid y puede cambiar tras scheduler.
         sd ra, 0(sp)
         # sd sp, 8(sp)
         sd gp, 16(sp)
@@ -34,10 +36,10 @@ kernelvec:
         sd t5, 232(sp)
         sd t6, 240(sp)
 
-        # call the C trap handler in trap.c
+        # Delega decision de trap/interrupcion a C.
         call kerneltrap
 
-        # restore registers.
+        # Restaura registros salvados.
         ld ra, 0(sp)
         # ld sp, 8(sp)
         ld gp, 16(sp)
@@ -58,7 +60,8 @@ kernelvec:
         ld t5, 232(sp)
         ld t6, 240(sp)
 
+        # Libera marco temporal.
         addi sp, sp, 256
 
-        # return to whatever we were doing in the kernel.
+        # Retorna al punto interrumpido (kernel o user segun CSRs).
         sret

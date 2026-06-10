@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/sysproc.c
+ *
+ * Explicacion clara y facil:
+ *   - Syscalls de procesos y memoria.
+ *   - Implementa fork/exit/wait/kill/getpid/sbrk/sleep/uptime para control de procesos.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "riscv.h"
 #include "defs.h"
@@ -10,6 +27,12 @@
 uint64
 sys_exit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_exit
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de syscalls de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   int n;
   argint(0, &n);
   kexit(n);
@@ -19,18 +42,36 @@ sys_exit(void)
 uint64
 sys_getpid(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_getpid
+ * Explicacion facil:
+ *   sys_getpid cumple una tarea puntual dentro de syscalls de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   return myproc()->pid;
 }
 
 uint64
 sys_fork(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_fork
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de syscalls de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   return kfork();
 }
 
 uint64
 sys_wait(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_wait
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de syscalls de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   uint64 p;
   argaddr(0, &p);
   return kwait(p);
@@ -39,6 +80,12 @@ sys_wait(void)
 uint64
 sys_sbrk(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_sbrk
+ * Explicacion facil:
+ *   sys_sbrk cumple una tarea puntual dentro de syscalls de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 addr;
   int t;
   int n;
@@ -67,6 +114,12 @@ sys_sbrk(void)
 uint64
 sys_pause(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_pause
+ * Explicacion facil:
+ *   sys_pause cumple una tarea puntual dentro de syscalls de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int n;
   uint ticks0;
 
@@ -89,6 +142,12 @@ sys_pause(void)
 uint64
 sys_kill(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_kill
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de syscalls de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   int pid;
 
   argint(0, &pid);
@@ -100,6 +159,12 @@ sys_kill(void)
 uint64
 sys_uptime(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_uptime
+ * Explicacion facil:
+ *   sys_uptime cumple una tarea puntual dentro de syscalls de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint xticks;
 
   acquire(&tickslock);

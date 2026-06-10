@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/vm.c
+ *
+ * Explicacion clara y facil:
+ *   - Memoria virtual y tablas de paginas.
+ *   - Crea mapeos, copia memoria entre kernel/usuario y gestiona direccionamiento virtual por proceso.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "param.h"
 #include "types.h"
 #include "memlayout.h"
@@ -21,6 +38,12 @@ extern char trampoline[]; // trampoline.S
 pagetable_t
 kvmmake(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kvmmake
+ * Explicacion facil:
+ *   Construye la pagetable del kernel con mapeos directos de dispositivos y RAM.
+ *   Incluye texto del kernel, datos, trampoline y stacks de procesos.
+ */
   pagetable_t kpgtbl;
 
   kpgtbl = (pagetable_t)kalloc();
@@ -58,6 +81,12 @@ kvmmake(void)
 void
 kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kvmmap
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   if (mappages(kpgtbl, va, sz, pa, perm) != 0)
     panic("kvmmap");
 }
@@ -66,6 +95,12 @@ kvmmap(pagetable_t kpgtbl, uint64 va, uint64 pa, uint64 sz, int perm)
 void
 kvminit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kvminit
+ * Explicacion facil:
+ *   Prepara estado inicial de memoria virtual para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   kernel_pagetable = kvmmake();
 }
 
@@ -74,6 +109,12 @@ kvminit(void)
 void
 kvminithart()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kvminithart
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   // wait for any previous writes to the page table memory to finish.
   sfence_vma();
 
@@ -98,6 +139,12 @@ kvminithart()
 pte_t *
 walk(pagetable_t pagetable, uint64 va, int alloc)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: walk
+ * Explicacion facil:
+ *   Recorre niveles de tabla de paginas para encontrar una PTE de una VA.
+ *   Opcionalmente crea tablas intermedias si faltan y alloc es verdadero.
+ */
   if (va >= MAXVA)
     panic("walk");
 
@@ -121,6 +168,12 @@ walk(pagetable_t pagetable, uint64 va, int alloc)
 uint64
 walkaddr(pagetable_t pagetable, uint64 va)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: walkaddr
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   pte_t *pte;
   uint64 pa;
 
@@ -146,6 +199,12 @@ walkaddr(pagetable_t pagetable, uint64 va)
 int
 mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: mappages
+ * Explicacion facil:
+ *   Instala mapeos VA->PA para un rango completo de paginas.
+ *   Marca permisos y falla si intenta remapear una pagina ya valida.
+ */
   uint64 a, last;
   pte_t *pte;
 
@@ -179,6 +238,12 @@ mappages(pagetable_t pagetable, uint64 va, uint64 size, uint64 pa, int perm)
 pagetable_t
 uvmcreate()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmcreate
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   pagetable_t pagetable;
   pagetable = (pagetable_t)kalloc();
   if (pagetable == 0)
@@ -193,6 +258,12 @@ uvmcreate()
 void
 uvmunmap(pagetable_t pagetable, uint64 va, uint64 npages, int do_free)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmunmap
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   uint64 a;
   pte_t *pte;
 
@@ -217,6 +288,12 @@ uvmunmap(pagetable_t pagetable, uint64 va, uint64 npages, int do_free)
 uint64
 uvmalloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz, int xperm)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmalloc
+ * Explicacion facil:
+ *   Crece el espacio de usuario asignando paginas nuevas.
+ *   Mapea cada pagina con permisos de usuario y limpia memoria a cero.
+ */
   char *mem;
   uint64 a;
 
@@ -248,6 +325,12 @@ uvmalloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz, int xperm)
 uint64
 uvmdealloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmdealloc
+ * Explicacion facil:
+ *   Reduce el tamano de memoria de usuario liberando paginas sobrantes.
+ *   Mantiene consistencia al desmapear solo el tramo que deja de existir.
+ */
   if (newsz >= oldsz)
     return oldsz;
 
@@ -264,6 +347,12 @@ uvmdealloc(pagetable_t pagetable, uint64 oldsz, uint64 newsz)
 void
 freewalk(pagetable_t pagetable)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: freewalk
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   // there are 2^9 = 512 PTEs in a page table.
   for (int i = 0; i < 512; i++) {
     pte_t pte = pagetable[i];
@@ -284,6 +373,12 @@ freewalk(pagetable_t pagetable)
 void
 uvmfree(pagetable_t pagetable, uint64 sz)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmfree
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   if (sz > 0)
     uvmunmap(pagetable, 0, PGROUNDUP(sz) / PGSIZE, 1);
   freewalk(pagetable);
@@ -298,6 +393,12 @@ uvmfree(pagetable_t pagetable, uint64 sz)
 int
 uvmcopy(pagetable_t old, pagetable_t new, uint64 sz)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmcopy
+ * Explicacion facil:
+ *   Copia la memoria de usuario del padre al hijo durante fork.
+ *   Replica contenido y permisos pagina por pagina en una nueva pagetable.
+ */
   pte_t *pte;
   uint64 pa, i;
   uint flags;
@@ -330,6 +431,12 @@ err:
 void
 uvmclear(pagetable_t pagetable, uint64 va)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uvmclear
+ * Explicacion facil:
+ *   Gestiona traducciones de direcciones o copias entre user y kernel.
+ *   Valida paginas y permisos para evitar accesos invalidos o corrupcion de memoria.
+ */
   pte_t *pte;
 
   pte = walk(pagetable, va, 0);
@@ -344,6 +451,12 @@ uvmclear(pagetable_t pagetable, uint64 va)
 int
 copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyout
+ * Explicacion facil:
+ *   Copia bytes desde kernel hacia direccion virtual de usuario.
+ *   Valida cada pagina destino para no escribir fuera del espacio permitido.
+ */
   uint64 n, va0, pa0;
   pte_t *pte;
 
@@ -382,6 +495,12 @@ copyout(pagetable_t pagetable, uint64 dstva, char *src, uint64 len)
 int
 copyin(pagetable_t pagetable, char *dst, uint64 srcva, uint64 len)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyin
+ * Explicacion facil:
+ *   Copia bytes desde direccion virtual de usuario hacia kernel.
+ *   Traduce pagina por pagina para evitar leer direcciones invalidas.
+ */
   uint64 n, va0, pa0;
 
   while (len > 0) {
@@ -411,6 +530,12 @@ copyin(pagetable_t pagetable, char *dst, uint64 srcva, uint64 len)
 int
 copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyinstr
+ * Explicacion facil:
+ *   Copia un string desde usuario hasta NUL o maximo permitido.
+ *   Protege contra punteros invalidos y strings no terminados.
+ */
   uint64 n, va0, pa0;
   int got_null = 0;
 
@@ -454,6 +579,12 @@ copyinstr(pagetable_t pagetable, char *dst, uint64 srcva, uint64 max)
 uint64
 vmfault(pagetable_t pagetable, uint64 va, int read)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: vmfault
+ * Explicacion facil:
+ *   Atiende un page fault de usuario intentando mapear la pagina faltante.
+ *   Permite crecimiento por demanda cuando la direccion es valida para el proceso.
+ */
   uint64 mem;
   struct proc *p = myproc();
 
@@ -477,6 +608,12 @@ vmfault(pagetable_t pagetable, uint64 va, int read)
 int
 ismapped(pagetable_t pagetable, uint64 va)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: ismapped
+ * Explicacion facil:
+ *   ismapped cumple una tarea puntual dentro de memoria virtual.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   pte_t *pte = walk(pagetable, va, 0);
   if (pte == 0) {
     return 0;

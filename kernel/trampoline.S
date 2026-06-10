@@ -1,14 +1,15 @@
+        # AUTOCOMMENT-XV6 (trampoline.S)
         #
-        # low-level code to handle traps from user space into
-        # the kernel, and returns from kernel to user.
+        # Codigo de transicion user <-> kernel a muy bajo nivel.
         #
-        # the kernel maps the page holding this code
-        # at the same virtual address (TRAMPOLINE)
-        # in user and kernel space so that it continues
-        # to work when it switches page tables.
-        # kernel.ld causes this code to start at 
-        # a page boundary.
+        # Idea clave:
+        # Esta pagina se mapea en la MISMA direccion virtual (TRAMPOLINE)
+        # tanto en tabla de usuario como de kernel. Asi el CPU puede seguir
+        # ejecutando instrucciones aqui durante el cambio de satp.
         #
+        # Fases:
+        #   uservec  : entra desde user, salva registros, cambia a pagetable kernel.
+        #   userret  : vuelve a pagetable user, restaura registros y hace sret.
 
 #include "riscv.h"
 #include "memlayout.h"
@@ -20,23 +21,17 @@ trampoline:
 .align 4
 .globl uservec
 uservec:    
-	#
-        # trap.c sets stvec to point here, so
-        # traps from user space start here,
-        # in supervisor mode, but with a
-        # user page table.
-        #
+	# Entrada desde user mode:
+        # ya estamos en supervisor, pero todavia con pagetable de usuario.
 
-        # save user a0 in sscratch so
-        # a0 can be used to get at TRAPFRAME.
+        # Guarda a0 en sscratch para reutilizar a0 como puntero a TRAPFRAME.
         csrw sscratch, a0
 
-        # each process has a separate p->trapframe memory area,
-        # but it's mapped to the same virtual address
-        # (TRAPFRAME) in every process's user page table.
+        # TRAPFRAME es VA fija en todos los procesos,
+        # pero cada uno mapea su propia memoria fisica.
         li a0, TRAPFRAME
         
-        # save the user registers in TRAPFRAME
+        # Guarda todo el contexto user en trapframe.
         sd ra, 40(a0)
         sd sp, 48(a0)
         sd gp, 56(a0)
@@ -72,44 +67,42 @@ uservec:
         csrr t0, sscratch
         sd t0, 112(a0)
 
-        # initialize kernel stack pointer, from p->trapframe->kernel_sp
+        # Cambia a stack de kernel del proceso actual.
         ld sp, 8(a0)
 
-        # make tp hold the current hartid, from p->trapframe->kernel_hartid
+        # Restaura hartid en tp.
         ld tp, 32(a0)
 
-        # load the address of usertrap(), from p->trapframe->kernel_trap
+        # Carga puntero a usertrap() (handler C).
         ld t0, 16(a0)
 
-        # fetch the kernel page table address, from p->trapframe->kernel_satp.
+        # Carga satp de kernel.
         ld t1, 0(a0)
 
-        # wait for any previous memory operations to complete, so that
-        # they use the user page table.
+        # Ordena memoria antes del cambio de pagetable.
         sfence.vma zero, zero
 
-        # install the kernel page table.
+        # Instala pagetable de kernel.
         csrw satp, t1
 
-        # flush now-stale user entries from the TLB.
+        # Limpia TLB de entradas potencialmente obsoletas.
         sfence.vma zero, zero
 
-        # call usertrap()
+        # Salta al handler C.
         jalr t0
 
 .globl userret
 userret:
-        # usertrap() returns here, with user satp in a0.
-        # return from kernel to user.
+        # Vuelta desde usertrap(): a0 trae satp de usuario.
 
-        # switch to the user page table.
+        # Activa tabla de paginas de usuario.
         sfence.vma zero, zero
         csrw satp, a0
         sfence.vma zero, zero
 
         li a0, TRAPFRAME
 
-        # restore all but a0 from TRAPFRAME
+        # Restaura todos los registros salvo a0.
         ld ra, 40(a0)
         ld sp, 48(a0)
         ld gp, 56(a0)
@@ -141,9 +134,8 @@ userret:
         ld t5, 272(a0)
         ld t6, 280(a0)
 
-	# restore user a0
+	# Restaura a0 original de usuario.
         ld a0, 112(a0)
         
-        # return to user mode and user pc.
-        # prepare_return() sets up sstatus and sepc.
+        # Retorna a user mode en sepc configurado por prepare_return().
         sret

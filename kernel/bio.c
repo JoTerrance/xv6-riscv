@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/bio.c
+ *
+ * Explicacion clara y facil:
+ *   - Cache de bloques del sistema de archivos (buffer cache).
+ *   - Gestiona lectura/escritura de bloques en memoria para evitar acceder al disco en cada operacion y mantener coherencia con locks.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // Buffer cache.
 //
 // The buffer cache is a linked list of buf structures holding
@@ -35,6 +52,12 @@ struct {
 void
 binit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: binit
+ * Explicacion facil:
+ *   binit cumple una tarea puntual dentro de cache de bloques.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct buf *b;
 
   initlock(&bcache.lock, "bcache");
@@ -57,6 +80,12 @@ binit(void)
 static struct buf *
 bget(uint dev, uint blockno)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bget
+ * Explicacion facil:
+ *   bget cumple una tarea puntual dentro de cache de bloques.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct buf *b;
 
   acquire(&bcache.lock);
@@ -91,6 +120,12 @@ bget(uint dev, uint blockno)
 struct buf *
 bread(uint dev, uint blockno)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bread
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de cache de bloques.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   struct buf *b;
 
   b = bget(dev, blockno);
@@ -105,6 +140,12 @@ bread(uint dev, uint blockno)
 void
 bwrite(struct buf *b)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bwrite
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de cache de bloques.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   if (!holdingsleep(&b->lock))
     panic("bwrite");
   virtio_disk_rw(b, 1);
@@ -115,6 +156,12 @@ bwrite(struct buf *b)
 void
 brelse(struct buf *b)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: brelse
+ * Explicacion facil:
+ *   brelse cumple una tarea puntual dentro de cache de bloques.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (!holdingsleep(&b->lock))
     panic("brelse");
 
@@ -138,6 +185,12 @@ brelse(struct buf *b)
 void
 bpin(struct buf *b)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bpin
+ * Explicacion facil:
+ *   bpin cumple una tarea puntual dentro de cache de bloques.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&bcache.lock);
   b->refcnt++;
   release(&bcache.lock);
@@ -146,6 +199,12 @@ bpin(struct buf *b)
 void
 bunpin(struct buf *b)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bunpin
+ * Explicacion facil:
+ *   bunpin cumple una tarea puntual dentro de cache de bloques.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&bcache.lock);
   b->refcnt--;
   release(&bcache.lock);

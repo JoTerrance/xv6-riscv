@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/kalloc.c
+ *
+ * Explicacion clara y facil:
+ *   - Asignador de paginas fisicas del kernel.
+ *   - Entrega y recupera paginas de memoria con una free list protegida por lock para uso de procesos y tablas.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // Physical memory allocator, for user processes,
 // kernel stacks, page-table pages,
 // and pipe buffers. Allocates whole 4096-byte pages.
@@ -26,6 +43,12 @@ struct {
 void
 kinit()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kinit
+ * Explicacion facil:
+ *   Prepara estado inicial de memoria fisica para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   initlock(&kmem.lock, "kmem");
   freerange(end, (void *)PHYSTOP);
 }
@@ -33,6 +56,12 @@ kinit()
 void
 freerange(void *pa_start, void *pa_end)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: freerange
+ * Explicacion facil:
+ *   Libera recursos previamente asignados en asignacion de memoria fisica.
+ *   Evita fugas y deja estructuras en estado coherente para usos futuros.
+ */
   char *p;
   p = (char *)PGROUNDUP((uint64)pa_start);
   for (; p + PGSIZE <= (char *)pa_end; p += PGSIZE)
@@ -46,6 +75,12 @@ freerange(void *pa_start, void *pa_end)
 void
 kfree(void *pa)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kfree
+ * Explicacion facil:
+ *   Libera recursos previamente asignados en asignacion de memoria fisica.
+ *   Evita fugas y deja estructuras en estado coherente para usos futuros.
+ */
   struct run *r;
 
   if (((uint64)pa % PGSIZE) != 0 || (char *)pa < end || (uint64)pa >= PHYSTOP)
@@ -68,6 +103,12 @@ kfree(void *pa)
 void *
 kalloc(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kalloc
+ * Explicacion facil:
+ *   Reserva recursos necesarios para asignacion de memoria fisica.
+ *   Si no hay espacio suficiente, falla de forma controlada para mantener consistencia.
+ */
   struct run *r;
 
   acquire(&kmem.lock);

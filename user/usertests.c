@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/usertests.c
+ *
+ * Explicacion clara y facil:
+ *   - Suite de pruebas de usuario.
+ *   - Ejecuta muchos casos para validar syscalls, procesos, fs y robustez general del sistema.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "kernel/param.h"
 #include "kernel/types.h"
 #include "kernel/stat.h"
@@ -32,6 +49,12 @@ char buf[BUFSZ];
 void
 copyin(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyin
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   uint64 addrs[] = {0x80000000LL, 0x3fffffe000, 0x3ffffff000, 0x4000000000,
                     0xffffffffffffffff};
 
@@ -78,6 +101,12 @@ copyin(char *s)
 void
 copyout(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyout
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   uint64 addrs[] = {0LL,          0x80000000LL, 0x3fffffe000,
                     0x3ffffff000, 0x4000000000, 0xffffffffffffffff};
 
@@ -121,6 +150,12 @@ copyout(char *s)
 void
 copyinstr1(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyinstr1
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   uint64 addrs[] = {0x80000000LL, 0x3fffffe000, 0x3ffffff000, 0x4000000000,
                     0xffffffffffffffff};
 
@@ -141,6 +176,12 @@ copyinstr1(char *s)
 void
 copyinstr2(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyinstr2
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   char b[MAXPATH + 1];
 
   for (int i = 0; i < MAXPATH; i++)
@@ -203,6 +244,12 @@ copyinstr2(char *s)
 void
 copyinstr3(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: copyinstr3
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   sbrk(8192);
   uint64 top = (uint64)sbrk(0);
   if ((top % PGSIZE) != 0) {
@@ -248,6 +295,12 @@ copyinstr3(char *s)
 void
 rwsbrk(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: rwsbrk
+ * Explicacion facil:
+ *   rwsbrk cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd, n;
 
   uint64 a = (uint64)sbrk(8192);
@@ -294,6 +347,12 @@ rwsbrk(char *s)
 void
 truncate1(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: truncate1
+ * Explicacion facil:
+ *   truncate1 cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char buf[32];
 
   unlink("truncfile");
@@ -353,6 +412,12 @@ truncate1(char *s)
 void
 truncate2(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: truncate2
+ * Explicacion facil:
+ *   truncate2 cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   unlink("truncfile");
 
   int fd1 = open("truncfile", O_CREATE | O_TRUNC | O_WRONLY);
@@ -374,6 +439,12 @@ truncate2(char *s)
 void
 truncate3(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: truncate3
+ * Explicacion facil:
+ *   truncate3 cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid, xstatus;
 
   close(open("truncfile", O_CREATE | O_TRUNC | O_WRONLY));
@@ -428,6 +499,12 @@ truncate3(char *s)
 void
 iputtest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iputtest
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   if (mkdir("iputdir") < 0) {
     printf("%s: mkdir failed\n", s);
     exit(1);
@@ -450,6 +527,12 @@ iputtest(char *s)
 void
 exitiputtest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: exitiputtest
+ * Explicacion facil:
+ *   Gestiona ciclo de vida de procesos dentro de programas de usuario.
+ *   Actualiza estado, recursos y coordinacion con padre/hijos o scheduler.
+ */
   int pid, xstatus;
 
   pid = fork();
@@ -490,6 +573,12 @@ exitiputtest(char *s)
 void
 openiputtest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: openiputtest
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   int pid, xstatus;
 
   if (mkdir("oidir") < 0) {
@@ -523,6 +612,12 @@ openiputtest(char *s)
 void
 opentest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: opentest
+ * Explicacion facil:
+ *   opentest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
 
   fd = open("echo", 0);
@@ -541,6 +636,12 @@ opentest(char *s)
 void
 writetest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: writetest
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   int fd;
   int i;
   enum { N = 100, SZ = 10 };
@@ -582,6 +683,12 @@ writetest(char *s)
 void
 writebig(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: writebig
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de programas de usuario.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   int i, fd, n;
 
   fd = open("big", O_CREATE | O_RDWR);
@@ -636,6 +743,12 @@ writebig(char *s)
 void
 createtest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: createtest
+ * Explicacion facil:
+ *   createtest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int i, fd;
   enum { N = 52 };
 
@@ -658,6 +771,12 @@ createtest(char *s)
 void
 dirtest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: dirtest
+ * Explicacion facil:
+ *   dirtest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (mkdir("dir0") < 0) {
     printf("%s: mkdir failed\n", s);
     exit(1);
@@ -682,6 +801,12 @@ dirtest(char *s)
 void
 exectest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: exectest
+ * Explicacion facil:
+ *   exectest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd, xstatus, pid;
   char *echoargv[] = {"echo", "OK", 0};
   char buf[3];
@@ -745,6 +870,12 @@ exectest(char *s)
 void
 pipe1(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pipe1
+ * Explicacion facil:
+ *   pipe1 cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fds[2], pid, xstatus;
   int seq, i, n, cc, total;
   enum { N = 5, SZ = 1033 };
@@ -799,6 +930,12 @@ pipe1(char *s)
 void
 killstatus(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: killstatus
+ * Explicacion facil:
+ *   Gestiona ciclo de vida de procesos dentro de programas de usuario.
+ *   Actualiza estado, recursos y coordinacion con padre/hijos o scheduler.
+ */
   int xst;
 
   for (int i = 0; i < 100; i++) {
@@ -828,6 +965,12 @@ killstatus(char *s)
 void
 preempt(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: preempt
+ * Explicacion facil:
+ *   preempt cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid1, pid2, pid3;
   int pfds[2];
 
@@ -884,6 +1027,12 @@ preempt(char *s)
 void
 exitwait(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: exitwait
+ * Explicacion facil:
+ *   Gestiona ciclo de vida de procesos dentro de programas de usuario.
+ *   Actualiza estado, recursos y coordinacion con padre/hijos o scheduler.
+ */
   int i, pid;
 
   for (i = 0; i < 100; i++) {
@@ -914,6 +1063,12 @@ exitwait(char *s)
 void
 reparent(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: reparent
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de programa de usuario.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   int master_pid = getpid();
   for (int i = 0; i < 200; i++) {
     int pid = fork();
@@ -942,6 +1097,12 @@ reparent(char *s)
 void
 twochildren(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: twochildren
+ * Explicacion facil:
+ *   twochildren cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   for (int i = 0; i < 1000; i++) {
     int pid1 = fork();
     if (pid1 < 0) {
@@ -970,6 +1131,12 @@ twochildren(char *s)
 void
 forkfork(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: forkfork
+ * Explicacion facil:
+ *   Gestiona ciclo de vida de procesos dentro de programas de usuario.
+ *   Actualiza estado, recursos y coordinacion con padre/hijos o scheduler.
+ */
   enum { N = 2 };
 
   for (int i = 0; i < N; i++) {
@@ -1006,6 +1173,12 @@ forkfork(char *s)
 void
 forkforkfork(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: forkforkfork
+ * Explicacion facil:
+ *   Gestiona ciclo de vida de procesos dentro de programas de usuario.
+ *   Actualiza estado, recursos y coordinacion con padre/hijos o scheduler.
+ */
   unlink("stopforking");
 
   int pid = fork();
@@ -1041,6 +1214,12 @@ forkforkfork(char *s)
 void
 reparent2(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: reparent2
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de programa de usuario.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   for (int i = 0; i < 800; i++) {
     int pid1 = fork();
     if (pid1 < 0) {
@@ -1062,6 +1241,12 @@ reparent2(char *s)
 void
 mem(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: mem
+ * Explicacion facil:
+ *   mem cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   void *m1, *m2;
   int pid;
 
@@ -1102,6 +1287,12 @@ mem(char *s)
 void
 sharedfd(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sharedfd
+ * Explicacion facil:
+ *   sharedfd cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd, pid, i, n, nc, np;
   enum { N = 1000, SZ = 10 };
   char buf[SZ];
@@ -1159,6 +1350,12 @@ sharedfd(char *s)
 void
 fourfiles(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fourfiles
+ * Explicacion facil:
+ *   fourfiles cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd, pid, i, j, n, total, pi;
   char *names[] = {"f0", "f1", "f2", "f3"};
   char *fname;
@@ -1225,6 +1422,12 @@ fourfiles(char *s)
 void
 createdelete(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: createdelete
+ * Explicacion facil:
+ *   createdelete cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { N = 20, NCHILD = 4 };
   int pid, i, fd, pi;
   char name[32];
@@ -1297,6 +1500,12 @@ createdelete(char *s)
 void
 unlinkread(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: unlinkread
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de programa de usuario.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   enum { SZ = 5 };
   int fd, fd1;
 
@@ -1341,6 +1550,12 @@ unlinkread(char *s)
 void
 linktest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: linktest
+ * Explicacion facil:
+ *   linktest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { SZ = 5 };
   int fd;
 
@@ -1401,6 +1616,12 @@ linktest(char *s)
 void
 concreate(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: concreate
+ * Explicacion facil:
+ *   concreate cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { N = 40 };
   char file[3];
   int i, pid, n, fd;
@@ -1499,6 +1720,12 @@ concreate(char *s)
 void
 linkunlink(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: linkunlink
+ * Explicacion facil:
+ *   linkunlink cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid, i;
 
   unlink("x");
@@ -1529,6 +1756,12 @@ linkunlink(char *s)
 void
 subdir(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: subdir
+ * Explicacion facil:
+ *   subdir cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd, cc;
 
   unlink("ff");
@@ -1709,6 +1942,12 @@ subdir(char *s)
 void
 bigwrite(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bigwrite
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de programa de usuario.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   int fd, sz;
 
   unlink("bigwrite");
@@ -1734,6 +1973,12 @@ bigwrite(char *s)
 void
 bigfile(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bigfile
+ * Explicacion facil:
+ *   bigfile cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { N = 20, SZ = 600 };
   int fd, i, total, cc;
 
@@ -1787,6 +2032,12 @@ bigfile(char *s)
 void
 fourteen(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fourteen
+ * Explicacion facil:
+ *   fourteen cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
 
   // DIRSIZ is 14.
@@ -1834,6 +2085,12 @@ fourteen(char *s)
 void
 rmdot(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: rmdot
+ * Explicacion facil:
+ *   rmdot cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (mkdir("dots") != 0) {
     printf("%s: mkdir dots failed\n", s);
     exit(1);
@@ -1871,6 +2128,12 @@ rmdot(char *s)
 void
 dirfile(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: dirfile
+ * Explicacion facil:
+ *   dirfile cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
 
   fd = open("dirfile", O_CREATE);
@@ -1928,6 +2191,12 @@ dirfile(char *s)
 void
 iref(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iref
+ * Explicacion facil:
+ *   iref cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int i, fd;
 
   for (i = 0; i < NINODE + 1; i++) {
@@ -1966,6 +2235,12 @@ iref(char *s)
 void
 forktest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: forktest
+ * Explicacion facil:
+ *   Gestiona ciclo de vida de procesos dentro de programas de usuario.
+ *   Actualiza estado, recursos y coordinacion con padre/hijos o scheduler.
+ */
   enum { N = 1000 };
   int n, pid;
 
@@ -2003,6 +2278,12 @@ forktest(char *s)
 void
 sbrkbasic(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrkbasic
+ * Explicacion facil:
+ *   sbrkbasic cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { TOOMUCH = 1024 * 1024 * 1024 };
   int i, pid, xstatus;
   char *c, *a, *b;
@@ -2067,6 +2348,12 @@ sbrkbasic(char *s)
 void
 sbrkmuch(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrkmuch
+ * Explicacion facil:
+ *   sbrkmuch cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { BIG = 100 * 1024 * 1024 };
   char *c, *oldbrk, *a, *lastaddr, *p;
   uint64 amt;
@@ -2125,6 +2412,12 @@ sbrkmuch(char *s)
 void
 kernmem(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kernmem
+ * Explicacion facil:
+ *   kernmem cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *a;
   int pid;
 
@@ -2149,6 +2442,12 @@ kernmem(char *s)
 void
 MAXVAplus(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: MAXVAplus
+ * Explicacion facil:
+ *   MAXVAplus cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   volatile uint64 a = MAXVA;
   for (; a != 0; a <<= 1) {
     int pid;
@@ -2174,6 +2473,12 @@ MAXVAplus(char *s)
 void
 sbrkfail(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrkfail
+ * Explicacion facil:
+ *   sbrkfail cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { BIG = 100 * 1024 * 1024 };
   int i, xstatus;
   int fds[2];
@@ -2247,6 +2552,12 @@ sbrkfail(char *s)
 void
 sbrkarg(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrkarg
+ * Explicacion facil:
+ *   sbrkarg cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *a;
   int fd, n;
 
@@ -2274,6 +2585,12 @@ sbrkarg(char *s)
 void
 validatetest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: validatetest
+ * Explicacion facil:
+ *   validatetest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int hi;
   uint64 p;
 
@@ -2292,6 +2609,12 @@ char uninit[10000];
 void
 bsstest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bsstest
+ * Explicacion facil:
+ *   bsstest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int i;
 
   for (i = 0; i < sizeof(uninit); i++) {
@@ -2308,6 +2631,12 @@ bsstest(char *s)
 void
 bigargtest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bigargtest
+ * Explicacion facil:
+ *   bigargtest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid, fd, xstatus;
 
   unlink("bigarg-ok");
@@ -2348,6 +2677,12 @@ bigargtest(char *s)
 void
 fsfull()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fsfull
+ * Explicacion facil:
+ *   fsfull cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int nfiles;
   int fsblocks = 0;
 
@@ -2399,6 +2734,12 @@ fsfull()
 void
 argptest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: argptest
+ * Explicacion facil:
+ *   argptest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
   fd = open("init", O_RDONLY);
   if (fd < 0) {
@@ -2414,6 +2755,12 @@ argptest(char *s)
 void
 stacktest(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: stacktest
+ * Explicacion facil:
+ *   stacktest cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid;
   int xstatus;
 
@@ -2440,6 +2787,12 @@ stacktest(char *s)
 void
 nowrite(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: nowrite
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de programa de usuario.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   int pid;
   int xstatus;
   uint64 addrs[] = {0,
@@ -2476,6 +2829,12 @@ void *big = (void *)0xeaeb0b5b00002f5e;
 void
 pgbug(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pgbug
+ * Explicacion facil:
+ *   pgbug cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *argv[1];
   argv[0] = 0;
   exec(big, argv);
@@ -2490,6 +2849,12 @@ pgbug(char *s)
 void
 sbrkbugs(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrkbugs
+ * Explicacion facil:
+ *   sbrkbugs cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid = fork();
   if (pid < 0) {
     printf("fork failed\n");
@@ -2548,6 +2913,12 @@ sbrkbugs(char *s)
 void
 sbrklast(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrklast
+ * Explicacion facil:
+ *   sbrklast cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 top = (uint64)sbrk(0);
   if ((top % PGSIZE) != 0)
     sbrk(PGSIZE - (top % PGSIZE));
@@ -2573,6 +2944,12 @@ sbrklast(char *s)
 void
 sbrk8000(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrk8000
+ * Explicacion facil:
+ *   sbrk8000 cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   sbrk(0x80000004);
   volatile char *top = sbrk(0);
   *(top - 1) = *(top - 1) + 1;
@@ -2583,6 +2960,12 @@ sbrk8000(char *s)
 void
 badarg(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: badarg
+ * Explicacion facil:
+ *   badarg cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   for (int i = 0; i < 50000; i++) {
     char *argv[2];
     argv[0] = (char *)0xffffffff;
@@ -2600,6 +2983,12 @@ badarg(char *s)
 void
 lazy_alloc(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: lazy_alloc
+ * Explicacion facil:
+ *   Reserva o libera recursos de programa de usuario segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   char *i, *prev_end, *new_end;
 
   prev_end = sbrklazy(REGION_SZ);
@@ -2628,6 +3017,12 @@ lazy_alloc(char *s)
 void
 lazy_unmap(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: lazy_unmap
+ * Explicacion facil:
+ *   lazy_unmap cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid;
   char *i, *prev_end, *new_end;
 
@@ -2666,6 +3061,12 @@ lazy_unmap(char *s)
 void
 lazy_copy(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: lazy_copy
+ * Explicacion facil:
+ *   lazy_copy cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   // copyinstr on lazy page
   {
     char *p = sbrk(0);
@@ -2716,6 +3117,12 @@ lazy_copy(char *s)
 void
 lazy_sbrk(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: lazy_sbrk
+ * Explicacion facil:
+ *   lazy_sbrk cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   // sbrk() takes just int, so take 2^30-sized steps towards MAXVA
   char *p = sbrk(0);
   while ((uint64)p < MAXVA - (1 << 30)) {
@@ -2842,6 +3249,12 @@ struct test {
 void
 bigdir(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bigdir
+ * Explicacion facil:
+ *   bigdir cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   enum { N = 500 };
   int i, fd;
   char name[10];
@@ -2884,6 +3297,12 @@ bigdir(char *s)
 void
 manywrites(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: manywrites
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de programa de usuario.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   int nchildren = 4;
   int howmany = 30; // increase to look for deadlock
 
@@ -2941,6 +3360,12 @@ manywrites(char *s)
 void
 badwrite(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: badwrite
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de programa de usuario.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   int assumed_free = 600;
 
   unlink("junk");
@@ -2976,6 +3401,12 @@ badwrite(char *s)
 void
 execout(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: execout
+ * Explicacion facil:
+ *   execout cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   for (int avail = 0; avail < 15; avail++) {
     int pid = fork();
     if (pid < 0) {
@@ -3011,6 +3442,12 @@ execout(char *s)
 void
 diskfull(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: diskfull
+ * Explicacion facil:
+ *   diskfull cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fi;
   int done = 0;
 
@@ -3091,6 +3528,12 @@ diskfull(char *s)
 void
 outofinodes(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: outofinodes
+ * Explicacion facil:
+ *   outofinodes cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int nzz = 32 * 32;
   for (int i = 0; i < nzz; i++) {
     char name[32];
@@ -3139,6 +3582,12 @@ struct test slowtests[] = {
 int
 run(void f(char *), char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: run
+ * Explicacion facil:
+ *   run cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int pid;
   int xstatus;
 
@@ -3163,6 +3612,12 @@ run(void f(char *), char *s)
 int
 runtests(struct test *tests, char *justone, int continuous)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: runtests
+ * Explicacion facil:
+ *   runtests cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int ntests = 0;
   for (struct test *t = tests; t->s != 0; t++) {
     if ((justone == 0) || strcmp(t->s, justone) == 0) {
@@ -3182,6 +3637,12 @@ runtests(struct test *tests, char *justone, int continuous)
 int
 countfree()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: countfree
+ * Explicacion facil:
+ *   Reserva o libera recursos de programa de usuario segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   int n = 0;
   uint64 sz0 = (uint64)sbrk(0);
   while (1) {
@@ -3198,6 +3659,12 @@ countfree()
 int
 drivetests(int quick, int continuous, char *justone)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: drivetests
+ * Explicacion facil:
+ *   drivetests cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   do {
     printf("usertests starting\n");
     int free0 = countfree();
@@ -3241,6 +3708,12 @@ drivetests(int quick, int continuous, char *justone)
 int
 main(int argc, char *argv[])
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: main
+ * Explicacion facil:
+ *   Punto de entrada en este modulo de programas de usuario.
+ *   Coordina inicializacion, llamadas principales y el flujo base de ejecucion.
+ */
   int continuous = 0;
   int quick = 0;
   char *justone = 0;

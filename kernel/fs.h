@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/fs.h
+ *
+ * Explicacion clara y facil:
+ *   - Tipos y constantes del sistema de archivos.
+ *   - Declara superbloque, inodos en disco, entradas de directorio y macros para traducir ubicaciones de bloques.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // On-disk file system format.
 // Both the kernel and user programs use this header file.
 
@@ -57,4 +74,5 @@ struct dinode {
 struct dirent {
   ushort inum;
   char name[DIRSIZ] __attribute__((nonstring));
+// AUTOCOMMENT-FUNC-PROTO: __attribute__ -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 };

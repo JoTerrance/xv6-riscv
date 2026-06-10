@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/riscv.h
+ *
+ * Explicacion clara y facil:
+ *   - Helpers de arquitectura RISC-V.
+ *   - Macros e inline asm para CSR, paginacion, interrupciones y primitivas de bajo nivel del hardware.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #ifndef __ASSEMBLER__
 
 // which hart (core) is this?
@@ -6,6 +23,7 @@ r_mhartid()
 {
   uint64 x;
   asm volatile("csrr %0, mhartid" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -21,6 +39,7 @@ r_mstatus()
 {
   uint64 x;
   asm volatile("csrr %0, mstatus" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -28,6 +47,7 @@ static inline void
 w_mstatus(uint64 x)
 {
   asm volatile("csrw mstatus, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // machine exception program counter, holds the
@@ -37,6 +57,7 @@ static inline void
 w_mepc(uint64 x)
 {
   asm volatile("csrw mepc, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // Supervisor Status Register, sstatus
@@ -52,6 +73,7 @@ r_sstatus()
 {
   uint64 x;
   asm volatile("csrr %0, sstatus" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -59,6 +81,7 @@ static inline void
 w_sstatus(uint64 x)
 {
   asm volatile("csrw sstatus, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // Supervisor Interrupt Pending
@@ -67,6 +90,7 @@ r_sip()
 {
   uint64 x;
   asm volatile("csrr %0, sip" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -74,6 +98,7 @@ static inline void
 w_sip(uint64 x)
 {
   asm volatile("csrw sip, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // Supervisor Interrupt Enable
@@ -84,6 +109,7 @@ r_sie()
 {
   uint64 x;
   asm volatile("csrr %0, sie" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -91,6 +117,7 @@ static inline void
 w_sie(uint64 x)
 {
   asm volatile("csrw sie, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // Machine-mode Interrupt Enable
@@ -100,6 +127,7 @@ r_mie()
 {
   uint64 x;
   asm volatile("csrr %0, mie" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -107,6 +135,7 @@ static inline void
 w_mie(uint64 x)
 {
   asm volatile("csrw mie, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // supervisor exception program counter, holds the
@@ -116,6 +145,7 @@ static inline void
 w_sepc(uint64 x)
 {
   asm volatile("csrw sepc, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 static inline uint64
@@ -123,6 +153,7 @@ r_sepc()
 {
   uint64 x;
   asm volatile("csrr %0, sepc" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -132,6 +163,7 @@ r_medeleg()
 {
   uint64 x;
   asm volatile("csrr %0, medeleg" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -139,6 +171,7 @@ static inline void
 w_medeleg(uint64 x)
 {
   asm volatile("csrw medeleg, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // Machine Interrupt Delegation
@@ -147,6 +180,7 @@ r_mideleg()
 {
   uint64 x;
   asm volatile("csrr %0, mideleg" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -154,6 +188,7 @@ static inline void
 w_mideleg(uint64 x)
 {
   asm volatile("csrw mideleg, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // Supervisor Trap-Vector Base Address
@@ -162,6 +197,7 @@ static inline void
 w_stvec(uint64 x)
 {
   asm volatile("csrw stvec, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 static inline uint64
@@ -169,6 +205,7 @@ r_stvec()
 {
   uint64 x;
   asm volatile("csrr %0, stvec" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -178,6 +215,7 @@ r_stimecmp()
 {
   uint64 x;
   // asm volatile("csrr %0, stimecmp" : "=r" (x) );
+// AUTOCOMMENT-FUNC-PROTO: funcion -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   asm volatile("csrr %0, 0x14d" : "=r"(x));
   return x;
 }
@@ -186,6 +224,7 @@ static inline void
 w_stimecmp(uint64 x)
 {
   // asm volatile("csrw stimecmp, %0" : : "r" (x));
+// AUTOCOMMENT-FUNC-PROTO: funcion -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   asm volatile("csrw 0x14d, %0" : : "r"(x));
 }
 
@@ -195,6 +234,7 @@ r_menvcfg()
 {
   uint64 x;
   // asm volatile("csrr %0, menvcfg" : "=r" (x) );
+// AUTOCOMMENT-FUNC-PROTO: funcion -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   asm volatile("csrr %0, 0x30a" : "=r"(x));
   return x;
 }
@@ -203,6 +243,7 @@ static inline void
 w_menvcfg(uint64 x)
 {
   // asm volatile("csrw menvcfg, %0" : : "r" (x));
+// AUTOCOMMENT-FUNC-PROTO: funcion -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   asm volatile("csrw 0x30a, %0" : : "r"(x));
 }
 
@@ -211,12 +252,14 @@ static inline void
 w_pmpcfg0(uint64 x)
 {
   asm volatile("csrw pmpcfg0, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 static inline void
 w_pmpaddr0(uint64 x)
 {
   asm volatile("csrw pmpaddr0, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // use riscv's sv39 page table scheme.
@@ -230,6 +273,7 @@ static inline void
 w_satp(uint64 x)
 {
   asm volatile("csrw satp, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 static inline uint64
@@ -237,6 +281,7 @@ r_satp()
 {
   uint64 x;
   asm volatile("csrr %0, satp" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -246,6 +291,7 @@ r_scause()
 {
   uint64 x;
   asm volatile("csrr %0, scause" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -255,6 +301,7 @@ r_stval()
 {
   uint64 x;
   asm volatile("csrr %0, stval" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -263,6 +310,7 @@ static inline void
 w_mcounteren(uint64 x)
 {
   asm volatile("csrw mcounteren, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 static inline uint64
@@ -270,6 +318,7 @@ r_mcounteren()
 {
   uint64 x;
   asm volatile("csrr %0, mcounteren" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -279,6 +328,7 @@ r_time()
 {
   uint64 x;
   asm volatile("csrr %0, time" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -287,6 +337,7 @@ static inline void
 intr_on()
 {
   w_sstatus(r_sstatus() | SSTATUS_SIE);
+// AUTOCOMMENT-FUNC-PROTO: w_sstatus -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // disable device interrupts
@@ -294,6 +345,7 @@ static inline void
 intr_off()
 {
   w_sstatus(r_sstatus() & ~SSTATUS_SIE);
+// AUTOCOMMENT-FUNC-PROTO: w_sstatus -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 // are device interrupts enabled?
@@ -301,6 +353,7 @@ static inline int
 intr_get()
 {
   uint64 x = r_sstatus();
+// AUTOCOMMENT-FUNC-PROTO: r_sstatus -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return (x & SSTATUS_SIE) != 0;
 }
 
@@ -309,6 +362,7 @@ r_sp()
 {
   uint64 x;
   asm volatile("mv %0, sp" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -319,6 +373,7 @@ r_tp()
 {
   uint64 x;
   asm volatile("mv %0, tp" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -326,6 +381,7 @@ static inline void
 w_tp(uint64 x)
 {
   asm volatile("mv tp, %0" : : "r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 static inline uint64
@@ -333,6 +389,7 @@ r_ra()
 {
   uint64 x;
   asm volatile("mv %0, ra" : "=r"(x));
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
   return x;
 }
 
@@ -342,6 +399,7 @@ sfence_vma()
 {
   // the zero, zero means flush all TLB entries.
   asm volatile("sfence.vma zero, zero");
+// AUTOCOMMENT-FUNC-PROTO: volatile -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 }
 
 typedef uint64 pte_t;

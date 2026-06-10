@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/printf.c
+ *
+ * Explicacion clara y facil:
+ *   - Impresion formateada del kernel.
+ *   - Implementa printf basico para depuracion y mensajes del sistema sin depender de librerias de usuario.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // formatted console output -- printf, panic.
 //
@@ -28,6 +45,12 @@ static char digits[] = "0123456789abcdef";
 static void
 printint(long long xx, int base, int sign)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printint
+ * Explicacion facil:
+ *   printint cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char buf[20];
   int i;
   unsigned long long x;
@@ -52,6 +75,12 @@ printint(long long xx, int base, int sign)
 static void
 printptr(uint64 x)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printptr
+ * Explicacion facil:
+ *   printptr cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int i;
   consputc('0');
   consputc('x');
@@ -63,6 +92,12 @@ printptr(uint64 x)
 int
 printf(char *fmt, ...)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printf
+ * Explicacion facil:
+ *   printf cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   va_list ap;
   int i, cx, c0, c1, c2;
   char *s;
@@ -137,6 +172,12 @@ printf(char *fmt, ...)
 void
 panic(char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: panic
+ * Explicacion facil:
+ *   panic cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   panicking = 1;
   printf("panic: ");
   printf("%s\n", s);
@@ -148,5 +189,11 @@ panic(char *s)
 void
 printfinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printfinit
+ * Explicacion facil:
+ *   printfinit cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   initlock(&pr.lock, "pr");
 }

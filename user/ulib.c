@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/ulib.c
+ *
+ * Explicacion clara y facil:
+ *   - Libreria base de usuario.
+ *   - Implementa funciones comunes (cadenas, IO simple, wrappers) para evitar duplicacion en cada programa.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "kernel/fcntl.h"
@@ -11,6 +28,12 @@
 void
 start(int argc, char **argv)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: start
+ * Explicacion facil:
+ *   start cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int r;
   extern int main(int argc, char **argv);
   r = main(argc, argv);
@@ -20,6 +43,12 @@ start(int argc, char **argv)
 char *
 strcpy(char *s, const char *t)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: strcpy
+ * Explicacion facil:
+ *   strcpy cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *os;
 
   os = s;
@@ -31,6 +60,12 @@ strcpy(char *s, const char *t)
 int
 strcmp(const char *p, const char *q)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: strcmp
+ * Explicacion facil:
+ *   strcmp cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   while (*p && *p == *q)
     p++, q++;
   return (uchar)*p - (uchar)*q;
@@ -39,6 +74,12 @@ strcmp(const char *p, const char *q)
 uint
 strlen(const char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: strlen
+ * Explicacion facil:
+ *   strlen cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int n;
 
   for (n = 0; s[n]; n++)
@@ -49,6 +90,12 @@ strlen(const char *s)
 void *
 memset(void *dst, int c, uint n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: memset
+ * Explicacion facil:
+ *   memset cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *cdst = (char *)dst;
   int i;
   for (i = 0; i < n; i++) {
@@ -60,6 +107,12 @@ memset(void *dst, int c, uint n)
 char *
 strchr(const char *s, char c)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: strchr
+ * Explicacion facil:
+ *   strchr cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   for (; *s; s++)
     if (*s == c)
       return (char *)s;
@@ -69,6 +122,12 @@ strchr(const char *s, char c)
 char *
 gets(char *buf, int max)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: gets
+ * Explicacion facil:
+ *   gets cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int i, cc;
   char c;
 
@@ -87,6 +146,12 @@ gets(char *buf, int max)
 int
 stat(const char *n, struct stat *st)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: stat
+ * Explicacion facil:
+ *   stat cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
   int r;
 
@@ -101,6 +166,12 @@ stat(const char *n, struct stat *st)
 int
 atoi(const char *s)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: atoi
+ * Explicacion facil:
+ *   atoi cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int n;
 
   n = 0;
@@ -112,6 +183,12 @@ atoi(const char *s)
 void *
 memmove(void *vdst, const void *vsrc, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: memmove
+ * Explicacion facil:
+ *   memmove cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *dst;
   const char *src;
 
@@ -132,6 +209,12 @@ memmove(void *vdst, const void *vsrc, int n)
 int
 memcmp(const void *s1, const void *s2, uint n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: memcmp
+ * Explicacion facil:
+ *   memcmp cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   const char *p1 = s1, *p2 = s2;
   while (n-- > 0) {
     if (*p1 != *p2) {
@@ -146,17 +229,35 @@ memcmp(const void *s1, const void *s2, uint n)
 void *
 memcpy(void *dst, const void *src, uint n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: memcpy
+ * Explicacion facil:
+ *   memcpy cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   return memmove(dst, src, n);
 }
 
 char *
 sbrk(int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrk
+ * Explicacion facil:
+ *   sbrk cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   return sys_sbrk(n, SBRK_EAGER);
 }
 
 char *
 sbrklazy(int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sbrklazy
+ * Explicacion facil:
+ *   sbrklazy cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   return sys_sbrk(n, SBRK_LAZY);
 }

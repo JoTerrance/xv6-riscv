@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/proc.c
+ *
+ * Explicacion clara y facil:
+ *   - Gestion de procesos y scheduler.
+ *   - Crea, destruye y cambia estados de procesos; incluye planificacion, sleep/wakeup y cambio de contexto.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -32,6 +49,12 @@ struct spinlock wait_lock;
 void
 proc_mapstacks(pagetable_t kpgtbl)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: proc_mapstacks
+ * Explicacion facil:
+ *   Reserva y mapea una pila de kernel por proceso en la zona alta de memoria.
+ *   Asi cada proceso tiene stack propio y una guard page para detectar desbordes.
+ */
   struct proc *p;
 
   for (p = proc; p < &proc[NPROC]; p++) {
@@ -47,6 +70,12 @@ proc_mapstacks(pagetable_t kpgtbl)
 void
 procinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: procinit
+ * Explicacion facil:
+ *   Inicializa la tabla global de procesos y sus locks.
+ *   Deja cada entrada en estado UNUSED y calcula la direccion de su kstack.
+ */
   struct proc *p;
 
   initlock(&pid_lock, "nextpid");
@@ -64,6 +93,12 @@ procinit(void)
 int
 cpuid()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: cpuid
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   int id = r_tp();
   return id;
 }
@@ -73,6 +108,12 @@ cpuid()
 struct cpu *
 mycpu(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: mycpu
+ * Explicacion facil:
+ *   mycpu cumple una tarea puntual dentro de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int id = cpuid();
   struct cpu *c = &cpus[id];
   return c;
@@ -82,6 +123,12 @@ mycpu(void)
 struct proc *
 myproc(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: myproc
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   push_off();
   struct cpu *c = mycpu();
   struct proc *p = c->proc;
@@ -92,6 +139,12 @@ myproc(void)
 int
 allocpid()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: allocpid
+ * Explicacion facil:
+ *   Reserva o libera recursos de procesos segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   int pid;
 
   acquire(&pid_lock);
@@ -109,6 +162,12 @@ allocpid()
 static struct proc *
 allocproc(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: allocproc
+ * Explicacion facil:
+ *   Busca una entrada libre de proceso y la prepara para nacer.
+ *   Crea trapframe, pagetable inicial y contexto para entrar por forkret.
+ */
   struct proc *p;
 
   for (p = proc; p < &proc[NPROC]; p++) {
@@ -155,6 +214,12 @@ found:
 static void
 freeproc(struct proc *p)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: freeproc
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   if (p->trapframe)
     kfree((void *)p->trapframe);
   p->trapframe = 0;
@@ -176,6 +241,12 @@ freeproc(struct proc *p)
 pagetable_t
 proc_pagetable(struct proc *p)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: proc_pagetable
+ * Explicacion facil:
+ *   proc_pagetable cumple una tarea puntual dentro de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   pagetable_t pagetable;
 
   // An empty page table.
@@ -210,6 +281,12 @@ proc_pagetable(struct proc *p)
 void
 proc_freepagetable(pagetable_t pagetable, uint64 sz)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: proc_freepagetable
+ * Explicacion facil:
+ *   Reserva o libera recursos de procesos segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   uvmunmap(pagetable, TRAMPOLINE, 1, 0);
   uvmunmap(pagetable, TRAPFRAME, 1, 0);
   uvmfree(pagetable, sz);
@@ -219,6 +296,12 @@ proc_freepagetable(pagetable_t pagetable, uint64 sz)
 void
 userinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: userinit
+ * Explicacion facil:
+ *   Prepara estado inicial de procesos para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   struct proc *p;
 
   p = allocproc();
@@ -236,6 +319,12 @@ userinit(void)
 int
 growproc(int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: growproc
+ * Explicacion facil:
+ *   growproc cumple una tarea puntual dentro de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 sz;
   struct proc *p = myproc();
 
@@ -259,6 +348,12 @@ growproc(int n)
 int
 kfork(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kfork
+ * Explicacion facil:
+ *   Duplica el proceso actual para crear un hijo.
+ *   Copia memoria/estado, duplica fds y deja al hijo con retorno 0 de fork.
+ */
   int i, pid;
   struct proc *np;
   struct proc *p = myproc();
@@ -310,6 +405,12 @@ kfork(void)
 void
 reparent(struct proc *p)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: reparent
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   struct proc *pp;
 
   for (pp = proc; pp < &proc[NPROC]; pp++) {
@@ -326,6 +427,12 @@ reparent(struct proc *p)
 void
 kexit(int status)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kexit
+ * Explicacion facil:
+ *   Finaliza el proceso actual de forma ordenada.
+ *   Cierra recursos, despierta al padre, reparenta hijos y pasa a estado ZOMBIE.
+ */
   struct proc *p = myproc();
 
   if (p == initproc)
@@ -370,6 +477,12 @@ kexit(int status)
 int
 kwait(uint64 addr)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kwait
+ * Explicacion facil:
+ *   Espera a que un hijo termine y recoge su codigo de salida.
+ *   Libera la entrada del hijo ZOMBIE para evitar fugas en la tabla de procesos.
+ */
   struct proc *pp;
   int havekids, pid;
   struct proc *p = myproc();
@@ -424,6 +537,12 @@ kwait(uint64 addr)
 void
 scheduler(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: scheduler
+ * Explicacion facil:
+ *   Bucle principal de planificacion por CPU.
+ *   Elige procesos RUNNABLE, hace swtch y vuelve a tomar control al ceder CPU.
+ */
   struct proc *p;
   struct cpu *c = mycpu();
 
@@ -472,6 +591,12 @@ scheduler(void)
 void
 sched(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sched
+ * Explicacion facil:
+ *   Realiza el cambio de contexto desde un proceso al scheduler.
+ *   Valida invariantes de locks/estado para evitar corrupcion de planificacion.
+ */
   int intena;
   struct proc *p = myproc();
 
@@ -493,6 +618,12 @@ sched(void)
 void
 yield(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: yield
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   struct proc *p = myproc();
   acquire(&p->lock);
   p->state = RUNNABLE;
@@ -505,6 +636,12 @@ yield(void)
 void
 forkret(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: forkret
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   extern char userret[];
   static int first = 1;
   struct proc *p = myproc();
@@ -542,6 +679,12 @@ forkret(void)
 void
 sleep(void *chan, struct spinlock *lk)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sleep
+ * Explicacion facil:
+ *   Bloquea al proceso actual sobre un canal de espera.
+ *   Suelta el lock indicado, duerme de forma atomica y lo recupera al despertar.
+ */
   struct proc *p = myproc();
 
   // Must acquire p->lock in order to
@@ -573,6 +716,12 @@ sleep(void *chan, struct spinlock *lk)
 void
 wakeup(void *chan)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: wakeup
+ * Explicacion facil:
+ *   Despierta procesos dormidos en un canal dado.
+ *   Cambia estado a RUNNABLE para que el scheduler pueda volver a ejecutarlos.
+ */
   struct proc *p;
 
   for (p = proc; p < &proc[NPROC]; p++) {
@@ -592,6 +741,12 @@ wakeup(void *chan)
 int
 kkill(int pid)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kkill
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   struct proc *p;
 
   for (p = proc; p < &proc[NPROC]; p++) {
@@ -613,6 +768,12 @@ kkill(int pid)
 void
 setkilled(struct proc *p)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: setkilled
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   acquire(&p->lock);
   p->killed = 1;
   release(&p->lock);
@@ -621,6 +782,12 @@ setkilled(struct proc *p)
 int
 killed(struct proc *p)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: killed
+ * Explicacion facil:
+ *   Coordina estados de procesos y planificacion dentro de procesos.
+ *   Toca locks y transiciones de estado, por eso conviene seguir el orden exacto de pasos.
+ */
   int k;
 
   acquire(&p->lock);
@@ -635,6 +802,12 @@ killed(struct proc *p)
 int
 either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: either_copyout
+ * Explicacion facil:
+ *   Copia datos desde kernel hacia user o kernel segun dst_user.
+ *   Centraliza validacion de destino y reduce errores de acceso de memoria.
+ */
   struct proc *p = myproc();
   if (user_dst) {
     return copyout(p->pagetable, dst, src, len);
@@ -650,6 +823,12 @@ either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
 int
 either_copyin(void *dst, int user_src, uint64 src, uint64 len)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: either_copyin
+ * Explicacion facil:
+ *   Copia datos hacia kernel desde user o kernel segun src_user.
+ *   Evita duplicar logica de syscalls que aceptan punteros de origen mixto.
+ */
   struct proc *p = myproc();
   if (user_src) {
     return copyin(p->pagetable, dst, src, len);
@@ -665,6 +844,12 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
 void
 procdump(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: procdump
+ * Explicacion facil:
+ *   procdump cumple una tarea puntual dentro de procesos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   static char *states[] = {
     // clang-format off
     [UNUSED]    "unused",

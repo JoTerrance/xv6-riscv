@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/trap.c
+ *
+ * Explicacion clara y facil:
+ *   - Manejo de traps e interrupciones.
+ *   - Gestiona entradas desde usuario/kernel, timers e interrupciones de dispositivos, y decide retorno seguro.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -19,6 +36,12 @@ extern int devintr();
 void
 trapinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: trapinit
+ * Explicacion facil:
+ *   Prepara estado inicial de traps e interrupciones para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   initlock(&tickslock, "time");
 }
 
@@ -26,6 +49,12 @@ trapinit(void)
 void
 trapinithart(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: trapinithart
+ * Explicacion facil:
+ *   trapinithart cumple una tarea puntual dentro de traps e interrupciones.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   w_stvec((uint64)kernelvec);
 }
 
@@ -37,6 +66,12 @@ trapinithart(void)
 uint64
 usertrap(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: usertrap
+ * Explicacion facil:
+ *   usertrap cumple una tarea puntual dentro de traps e interrupciones.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int which_dev = 0;
 
   if ((r_sstatus() & SSTATUS_SPP) != 0)
@@ -100,6 +135,12 @@ usertrap(void)
 void
 prepare_return(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: prepare_return
+ * Explicacion facil:
+ *   prepare_return cumple una tarea puntual dentro de traps e interrupciones.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct proc *p = myproc();
 
   // we're about to switch the destination of traps from
@@ -136,6 +177,12 @@ prepare_return(void)
 void
 kerneltrap()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kerneltrap
+ * Explicacion facil:
+ *   kerneltrap cumple una tarea puntual dentro de traps e interrupciones.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int which_dev = 0;
   uint64 sepc = r_sepc();
   uint64 sstatus = r_sstatus();
@@ -166,6 +213,12 @@ kerneltrap()
 void
 clockintr()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: clockintr
+ * Explicacion facil:
+ *   clockintr cumple una tarea puntual dentro de traps e interrupciones.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (cpuid() == 0) {
     acquire(&tickslock);
     ticks++;
@@ -187,6 +240,12 @@ clockintr()
 int
 devintr()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: devintr
+ * Explicacion facil:
+ *   devintr cumple una tarea puntual dentro de traps e interrupciones.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 scause = r_scause();
 
   if (scause == 0x8000000000000009L) {

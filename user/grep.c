@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/grep.c
+ *
+ * Explicacion clara y facil:
+ *   - Programa de usuario tipo utilidad Unix simple.
+ *   - Cada archivo implementa un comando pequeno (cat, ls, grep, etc.) para probar y usar xv6 desde shell.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // Simple grep.  Only supports ^ . * $ operators.
 
 #include "kernel/types.h"
@@ -11,6 +28,12 @@ int match(char *, char *);
 void
 grep(char *pattern, int fd)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: grep
+ * Explicacion facil:
+ *   grep cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int n, m;
   char *p, *q;
 
@@ -37,6 +60,12 @@ grep(char *pattern, int fd)
 int
 main(int argc, char *argv[])
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: main
+ * Explicacion facil:
+ *   Punto de entrada en este modulo de programas de usuario.
+ *   Coordina inicializacion, llamadas principales y el flujo base de ejecucion.
+ */
   int fd, i;
   char *pattern;
 
@@ -72,6 +101,12 @@ int matchstar(int, char *, char *);
 int
 match(char *re, char *text)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: match
+ * Explicacion facil:
+ *   match cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (re[0] == '^')
     return matchhere(re + 1, text);
   do { // must look at empty string
@@ -85,6 +120,12 @@ match(char *re, char *text)
 int
 matchhere(char *re, char *text)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: matchhere
+ * Explicacion facil:
+ *   matchhere cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (re[0] == '\0')
     return 1;
   if (re[1] == '*')
@@ -100,6 +141,12 @@ matchhere(char *re, char *text)
 int
 matchstar(int c, char *re, char *text)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: matchstar
+ * Explicacion facil:
+ *   matchstar cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   do { // a * matches zero or more instances
     if (matchhere(re, text))
       return 1;

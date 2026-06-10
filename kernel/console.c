@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/console.c
+ *
+ * Explicacion clara y facil:
+ *   - Consola del kernel y E/S de terminal.
+ *   - Maneja entrada de teclado, salida por consola y coordinacion con interrupciones para que usuario y kernel puedan imprimir/leer texto.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // Console input and output, to the uart.
 // Reads are line at a time.
@@ -34,6 +51,12 @@
 void
 consputc(int c)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: consputc
+ * Explicacion facil:
+ *   consputc cumple una tarea puntual dentro de consola.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (c == BACKSPACE) {
     // if the user typed backspace, overwrite with a space.
     uartputc_sync('\b');
@@ -62,6 +85,12 @@ struct {
 int
 consolewrite(int user_src, uint64 src, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: consolewrite
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de consola.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   char buf[32]; // move batches from user space to uart.
   int i = 0;
 
@@ -87,6 +116,12 @@ consolewrite(int user_src, uint64 src, int n)
 int
 consoleread(int user_dst, uint64 dst, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: consoleread
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de consola.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   uint target;
   int c;
   char cbuf;
@@ -143,6 +178,12 @@ consoleread(int user_dst, uint64 dst, int n)
 void
 consoleintr(int c)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: consoleintr
+ * Explicacion facil:
+ *   consoleintr cumple una tarea puntual dentro de consola.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&cons.lock);
 
   switch (c) {
@@ -189,6 +230,12 @@ consoleintr(int c)
 void
 consoleinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: consoleinit
+ * Explicacion facil:
+ *   Prepara estado inicial de consola para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   initlock(&cons.lock, "cons");
 
   uartinit();

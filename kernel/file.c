@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/file.c
+ *
+ * Explicacion clara y facil:
+ *   - Tabla global de archivos y operaciones de file descriptors.
+ *   - Implementa alloc/free de struct file y puentea lecturas/escrituras hacia pipe, inode o dispositivo.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // Support functions for system calls that involve file descriptors.
 //
@@ -22,6 +39,12 @@ struct {
 void
 fileinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fileinit
+ * Explicacion facil:
+ *   Prepara estado inicial de tablas de archivos para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   initlock(&ftable.lock, "ftable");
 }
 
@@ -29,6 +52,12 @@ fileinit(void)
 struct file *
 filealloc(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: filealloc
+ * Explicacion facil:
+ *   Reserva o libera recursos de tablas de archivos segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   struct file *f;
 
   acquire(&ftable.lock);
@@ -47,6 +76,12 @@ filealloc(void)
 struct file *
 filedup(struct file *f)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: filedup
+ * Explicacion facil:
+ *   filedup cumple una tarea puntual dentro de tablas de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&ftable.lock);
   if (f->ref < 1)
     panic("filedup");
@@ -59,6 +94,12 @@ filedup(struct file *f)
 void
 fileclose(struct file *f)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fileclose
+ * Explicacion facil:
+ *   fileclose cumple una tarea puntual dentro de tablas de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct file ff;
 
   acquire(&ftable.lock);
@@ -87,6 +128,12 @@ fileclose(struct file *f)
 int
 filestat(struct file *f, uint64 addr)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: filestat
+ * Explicacion facil:
+ *   filestat cumple una tarea puntual dentro de tablas de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct proc *p = myproc();
   struct stat st;
 
@@ -106,6 +153,12 @@ filestat(struct file *f, uint64 addr)
 int
 fileread(struct file *f, uint64 addr, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fileread
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de tabla de archivos.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   int r = 0;
 
   if (f->readable == 0)
@@ -134,6 +187,12 @@ fileread(struct file *f, uint64 addr, int n)
 int
 filewrite(struct file *f, uint64 addr, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: filewrite
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de tabla de archivos.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   int r, ret = 0;
 
   if (f->writable == 0)

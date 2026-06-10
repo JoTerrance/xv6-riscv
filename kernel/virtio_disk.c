@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/virtio_disk.c
+ *
+ * Explicacion clara y facil:
+ *   - Driver de disco VirtIO.
+ *   - Comunica xv6 con el dispositivo de bloque virtual usando colas VirtIO y sincronizacion de peticiones.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // driver for qemu's virtio disk device.
 // uses qemu's mmio interface to virtio.
@@ -61,6 +78,12 @@ static struct disk {
 void
 virtio_disk_init(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: virtio_disk_init
+ * Explicacion facil:
+ *   virtio_disk_init cumple una tarea puntual dentro de driver VirtIO disk.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint32 status = 0;
 
   initlock(&disk.vdisk_lock, "virtio_disk");
@@ -155,6 +178,12 @@ virtio_disk_init(void)
 static int
 alloc_desc()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: alloc_desc
+ * Explicacion facil:
+ *   Reserva recursos necesarios para driver VirtIO disk.
+ *   Si no hay espacio suficiente, falla de forma controlada para mantener consistencia.
+ */
   for (int i = 0; i < NUM; i++) {
     if (disk.free[i]) {
       disk.free[i] = 0;
@@ -168,6 +197,12 @@ alloc_desc()
 static void
 free_desc(int i)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: free_desc
+ * Explicacion facil:
+ *   Libera recursos previamente asignados en driver VirtIO disk.
+ *   Evita fugas y deja estructuras en estado coherente para usos futuros.
+ */
   if (i >= NUM)
     panic("free_desc 1");
   if (disk.free[i])
@@ -184,6 +219,12 @@ free_desc(int i)
 static void
 free_chain(int i)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: free_chain
+ * Explicacion facil:
+ *   Libera recursos previamente asignados en driver VirtIO disk.
+ *   Evita fugas y deja estructuras en estado coherente para usos futuros.
+ */
   while (1) {
     int flag = disk.desc[i].flags;
     int nxt = disk.desc[i].next;
@@ -200,6 +241,12 @@ free_chain(int i)
 static int
 alloc3_desc(int *idx)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: alloc3_desc
+ * Explicacion facil:
+ *   Reserva recursos necesarios para driver VirtIO disk.
+ *   Si no hay espacio suficiente, falla de forma controlada para mantener consistencia.
+ */
   for (int i = 0; i < 3; i++) {
     idx[i] = alloc_desc();
     if (idx[i] < 0) {
@@ -214,6 +261,12 @@ alloc3_desc(int *idx)
 void
 virtio_disk_rw(struct buf *b, int write)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: virtio_disk_rw
+ * Explicacion facil:
+ *   virtio_disk_rw cumple una tarea puntual dentro de driver VirtIO disk.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 sector = b->blockno * (BSIZE / 512);
 
   acquire(&disk.vdisk_lock);
@@ -293,6 +346,12 @@ virtio_disk_rw(struct buf *b, int write)
 void
 virtio_disk_intr()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: virtio_disk_intr
+ * Explicacion facil:
+ *   virtio_disk_intr cumple una tarea puntual dentro de driver VirtIO disk.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&disk.vdisk_lock);
 
   // the device won't raise another interrupt until we tell it

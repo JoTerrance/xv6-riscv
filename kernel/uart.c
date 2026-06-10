@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/uart.c
+ *
+ * Explicacion clara y facil:
+ *   - Driver UART.
+ *   - Maneja transmision/recepcion serie usada por consola y depuracion sobre dispositivo UART.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // low-level driver for 16550a UART.
 //
@@ -48,6 +65,12 @@ extern volatile int panicked;  // from printf.c
 void
 uartinit(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uartinit
+ * Explicacion facil:
+ *   uartinit cumple una tarea puntual dentro de driver UART.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   // disable interrupts.
   WriteReg(IER, 0x00);
 
@@ -79,6 +102,12 @@ uartinit(void)
 void
 uartwrite(char buf[], int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uartwrite
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de driver UART.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   acquire(&tx_lock);
 
   int i = 0;
@@ -104,6 +133,12 @@ uartwrite(char buf[], int n)
 void
 uartputc_sync(int c)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uartputc_sync
+ * Explicacion facil:
+ *   uartputc_sync cumple una tarea puntual dentro de driver UART.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   if (panicking == 0)
     push_off();
 
@@ -126,6 +161,12 @@ uartputc_sync(int c)
 static int
 uartgetc(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uartgetc
+ * Explicacion facil:
+ *   uartgetc cumple una tarea puntual dentro de driver UART.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   // is input ready?
   if (ReadReg(LSR) & LSR_RX_READY) {
     return ReadReg(RHR);
@@ -140,6 +181,12 @@ uartgetc(void)
 void
 uartintr(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: uartintr
+ * Explicacion facil:
+ *   uartintr cumple una tarea puntual dentro de driver UART.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   ReadReg(ISR); // acknowledge the interrupt
 
   acquire(&tx_lock);

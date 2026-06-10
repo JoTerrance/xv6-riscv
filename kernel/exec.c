@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/exec.c
+ *
+ * Explicacion clara y facil:
+ *   - Carga de programas de usuario (exec).
+ *   - Reemplaza la imagen de un proceso por otra nueva leyendo ELF, armando pila inicial y actualizando contexto de ejecucion.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -13,6 +30,12 @@ static int loadseg(pde_t *, uint64, struct inode *, uint, uint);
 int
 flags2perm(int flags)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: flags2perm
+ * Explicacion facil:
+ *   flags2perm cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int perm = 0;
   if (flags & 0x1)
     perm = PTE_X;
@@ -27,6 +50,12 @@ flags2perm(int flags)
 int
 kexec(char *path, char **argv)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: kexec
+ * Explicacion facil:
+ *   kexec cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *s, *last;
   int i, off;
   uint64 argc, sz = 0, sp, ustack[MAXARG], stackbase;
@@ -158,6 +187,12 @@ static int
 loadseg(pagetable_t pagetable, uint64 va, struct inode *ip, uint offset,
         uint sz)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: funcion
+ * Explicacion facil:
+ *   funcion cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint i, n;
   uint64 pa;
 

@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/printf.c
+ *
+ * Explicacion clara y facil:
+ *   - Programa de usuario tipo utilidad Unix simple.
+ *   - Cada archivo implementa un comando pequeno (cat, ls, grep, etc.) para probar y usar xv6 desde shell.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
@@ -9,12 +26,24 @@ static char digits[] = "0123456789ABCDEF";
 static void
 putc(int fd, char c)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: putc
+ * Explicacion facil:
+ *   putc cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   write(fd, &c, 1);
 }
 
 static void
 printint(int fd, long long xx, int base, int sgn)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printint
+ * Explicacion facil:
+ *   printint cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char buf[20];
   int i, neg;
   unsigned long long x;
@@ -41,6 +70,12 @@ printint(int fd, long long xx, int base, int sgn)
 static void
 printptr(int fd, uint64 x)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printptr
+ * Explicacion facil:
+ *   printptr cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int i;
   putc(fd, '0');
   putc(fd, 'x');
@@ -52,6 +87,12 @@ printptr(int fd, uint64 x)
 void
 vprintf(int fd, const char *fmt, va_list ap)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: vprintf
+ * Explicacion facil:
+ *   vprintf cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *s;
   int c0, c1, c2, i, state;
 
@@ -119,6 +160,12 @@ vprintf(int fd, const char *fmt, va_list ap)
 void
 fprintf(int fd, const char *fmt, ...)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fprintf
+ * Explicacion facil:
+ *   fprintf cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   va_list ap;
 
   va_start(ap, fmt);
@@ -128,6 +175,12 @@ fprintf(int fd, const char *fmt, ...)
 void
 printf(const char *fmt, ...)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: printf
+ * Explicacion facil:
+ *   printf cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   va_list ap;
 
   va_start(ap, fmt);

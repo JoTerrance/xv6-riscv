@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/main.c
+ *
+ * Explicacion clara y facil:
+ *   - Inicializacion principal del kernel.
+ *   - Orquesta arranque: memoria, procesos, dispositivos e inicio del scheduler en cada CPU.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -10,6 +27,12 @@ volatile static int started = 0;
 void
 main()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: main
+ * Explicacion facil:
+ *   Punto de entrada en este modulo de arranque del kernel.
+ *   Coordina inicializacion, llamadas principales y el flujo base de ejecucion.
+ */
   if (cpuid() == 0) {
     consoleinit();
     printfinit();

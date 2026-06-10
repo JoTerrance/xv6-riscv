@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/pipe.c
+ *
+ * Explicacion clara y facil:
+ *   - Implementacion de pipes.
+ *   - Ofrece comunicacion productor/consumidor entre procesos con buffer circular y bloqueo adecuado.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "riscv.h"
 #include "defs.h"
@@ -22,6 +39,12 @@ struct pipe {
 int
 pipealloc(struct file **f0, struct file **f1)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pipealloc
+ * Explicacion facil:
+ *   Reserva o libera recursos de pipes segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   struct pipe *pi;
 
   pi = 0;
@@ -58,6 +81,12 @@ bad:
 void
 pipeclose(struct pipe *pi, int writable)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pipeclose
+ * Explicacion facil:
+ *   pipeclose cumple una tarea puntual dentro de pipes.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&pi->lock);
   if (writable) {
     pi->writeopen = 0;
@@ -76,6 +105,12 @@ pipeclose(struct pipe *pi, int writable)
 int
 pipewrite(struct pipe *pi, uint64 addr, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pipewrite
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de pipes.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   int i = 0;
   struct proc *pr = myproc();
 
@@ -105,6 +140,12 @@ pipewrite(struct pipe *pi, uint64 addr, int n)
 int
 piperead(struct pipe *pi, uint64 addr, int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: piperead
+ * Explicacion facil:
+ *   Realiza transferencia de datos en el contexto de pipes.
+ *   Valida limites y mueve bytes de forma segura entre estructuras o espacios de memoria.
+ */
   int i;
   struct proc *pr = myproc();
   char ch;

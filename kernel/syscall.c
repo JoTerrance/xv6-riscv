@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/syscall.c
+ *
+ * Explicacion clara y facil:
+ *   - Despachador de system calls.
+ *   - Toma numero de syscall desde trapframe, valida y redirige a la funcion correcta del kernel.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -11,6 +28,12 @@
 int
 fetchaddr(uint64 addr, uint64 *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fetchaddr
+ * Explicacion facil:
+ *   fetchaddr cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct proc *p = myproc();
   if (addr >= p->sz ||
       addr + sizeof(uint64) > p->sz) // both tests needed, in case of overflow
@@ -25,6 +48,12 @@ fetchaddr(uint64 addr, uint64 *ip)
 int
 fetchstr(uint64 addr, char *buf, int max)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fetchstr
+ * Explicacion facil:
+ *   fetchstr cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct proc *p = myproc();
   if (copyinstr(p->pagetable, buf, addr, max) < 0)
     return -1;
@@ -34,6 +63,12 @@ fetchstr(uint64 addr, char *buf, int max)
 static uint64
 argraw(int n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: argraw
+ * Explicacion facil:
+ *   argraw cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct proc *p = myproc();
   switch (n) {
   case 0:
@@ -57,6 +92,12 @@ argraw(int n)
 void
 argint(int n, int *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: argint
+ * Explicacion facil:
+ *   argint cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   *ip = argraw(n);
 }
 
@@ -66,6 +107,12 @@ argint(int n, int *ip)
 void
 argaddr(int n, uint64 *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: argaddr
+ * Explicacion facil:
+ *   argaddr cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   *ip = argraw(n);
 }
 
@@ -75,6 +122,12 @@ argaddr(int n, uint64 *ip)
 int
 argstr(int n, char *buf, int max)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: argstr
+ * Explicacion facil:
+ *   argstr cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 addr;
   argaddr(n, &addr);
   return fetchstr(addr, buf, max);
@@ -134,6 +187,12 @@ static uint64 (*syscalls[])(void) = {
 void
 syscall(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: syscall
+ * Explicacion facil:
+ *   syscall cumple una tarea puntual dentro de syscalls.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int num;
   struct proc *p = myproc();
 

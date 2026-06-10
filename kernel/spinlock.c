@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/spinlock.c
+ *
+ * Explicacion clara y facil:
+ *   - Spinlocks del kernel.
+ *   - Sincronizacion de baja latencia para secciones criticas cortas deshabilitando interrupciones cuando corresponde.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // Mutual exclusion spin locks.
 
 #include "types.h"
@@ -11,6 +28,12 @@
 void
 initlock(struct spinlock *lk, char *name)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: initlock
+ * Explicacion facil:
+ *   initlock cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   lk->name = name;
   lk->locked = 0;
   lk->cpu = 0;
@@ -21,6 +44,12 @@ initlock(struct spinlock *lk, char *name)
 void
 acquire(struct spinlock *lk)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: acquire
+ * Explicacion facil:
+ *   Sincroniza acceso concurrente dentro de spinlocks.
+ *   Controla locks o estados de espera para prevenir carreras y bloqueos incorrectos.
+ */
   push_off(); // disable interrupts to avoid deadlock.
   if (holding(lk))
     panic("acquire");
@@ -45,6 +74,12 @@ acquire(struct spinlock *lk)
 void
 release(struct spinlock *lk)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: release
+ * Explicacion facil:
+ *   Sincroniza acceso concurrente dentro de spinlocks.
+ *   Controla locks o estados de espera para prevenir carreras y bloqueos incorrectos.
+ */
   if (!holding(lk))
     panic("release");
 
@@ -79,6 +114,12 @@ release(struct spinlock *lk)
 int
 holding(struct spinlock *lk)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: holding
+ * Explicacion facil:
+ *   holding cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int r;
   r = (lk->locked && lk->cpu == mycpu());
   return r;
@@ -91,6 +132,12 @@ holding(struct spinlock *lk)
 void
 push_off(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: push_off
+ * Explicacion facil:
+ *   push_off cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int old = intr_get();
 
   // disable interrupts to prevent an involuntary context
@@ -105,6 +152,12 @@ push_off(void)
 void
 pop_off(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: pop_off
+ * Explicacion facil:
+ *   pop_off cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct cpu *c = mycpu();
   if (intr_get())
     panic("pop_off - interruptible");

@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/sysfile.c
+ *
+ * Explicacion clara y facil:
+ *   - Syscalls relacionadas con archivos.
+ *   - Implementa open/read/write/close/chdir/link/unlink y otras operaciones del sistema de archivos.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // File-system system calls.
 // Mostly argument checking, since we don't trust
@@ -21,6 +38,12 @@
 static int
 argfd(int n, int *pfd, struct file **pf)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: argfd
+ * Explicacion facil:
+ *   argfd cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
   struct file *f;
 
@@ -39,6 +62,12 @@ argfd(int n, int *pfd, struct file **pf)
 static int
 fdalloc(struct file *f)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fdalloc
+ * Explicacion facil:
+ *   Reserva o libera recursos de syscalls de archivos segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   int fd;
   struct proc *p = myproc();
 
@@ -54,6 +83,12 @@ fdalloc(struct file *f)
 uint64
 sys_dup(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_dup
+ * Explicacion facil:
+ *   sys_dup cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct file *f;
   int fd;
 
@@ -68,6 +103,12 @@ sys_dup(void)
 uint64
 sys_read(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_read
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de syscalls de archivos.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   struct file *f;
   int n;
   uint64 p;
@@ -82,6 +123,12 @@ sys_read(void)
 uint64
 sys_write(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_write
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de syscalls de archivos.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   struct file *f;
   int n;
   uint64 p;
@@ -97,6 +144,12 @@ sys_write(void)
 uint64
 sys_close(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_close
+ * Explicacion facil:
+ *   sys_close cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd;
   struct file *f;
 
@@ -110,6 +163,12 @@ sys_close(void)
 uint64
 sys_fstat(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_fstat
+ * Explicacion facil:
+ *   sys_fstat cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct file *f;
   uint64 st; // user pointer to struct stat
 
@@ -123,6 +182,12 @@ sys_fstat(void)
 uint64
 sys_link(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_link
+ * Explicacion facil:
+ *   sys_link cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char name[DIRSIZ], new[MAXPATH], old[MAXPATH];
   struct inode *dp, *ip;
 
@@ -173,6 +238,12 @@ bad:
 static int
 isdirempty(struct inode *dp)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: isdirempty
+ * Explicacion facil:
+ *   isdirempty cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int off;
   struct dirent de;
 
@@ -188,6 +259,12 @@ isdirempty(struct inode *dp)
 uint64
 sys_unlink(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_unlink
+ * Explicacion facil:
+ *   sys_unlink cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct inode *ip, *dp;
   struct dirent de;
   char name[DIRSIZ], path[MAXPATH];
@@ -245,6 +322,12 @@ bad:
 static struct inode *
 create(char *path, short type, short major, short minor)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: create
+ * Explicacion facil:
+ *   create cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct inode *ip, *dp;
   char name[DIRSIZ];
 
@@ -304,6 +387,12 @@ fail:
 uint64
 sys_open(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_open
+ * Explicacion facil:
+ *   sys_open cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char path[MAXPATH];
   int fd, omode;
   struct file *f;
@@ -373,6 +462,12 @@ sys_open(void)
 uint64
 sys_mkdir(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_mkdir
+ * Explicacion facil:
+ *   sys_mkdir cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char path[MAXPATH];
   struct inode *ip;
 
@@ -389,6 +484,12 @@ sys_mkdir(void)
 uint64
 sys_mknod(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_mknod
+ * Explicacion facil:
+ *   sys_mknod cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct inode *ip;
   char path[MAXPATH];
   int major, minor;
@@ -409,6 +510,12 @@ sys_mknod(void)
 uint64
 sys_chdir(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_chdir
+ * Explicacion facil:
+ *   sys_chdir cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char path[MAXPATH];
   struct inode *ip;
   struct proc *p = myproc();
@@ -434,6 +541,12 @@ sys_chdir(void)
 uint64
 sys_exec(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_exec
+ * Explicacion facil:
+ *   sys_exec cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char path[MAXPATH], *argv[MAXARG];
   int i;
   uint64 uargv, uarg;
@@ -477,6 +590,12 @@ bad:
 uint64
 sys_pipe(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: sys_pipe
+ * Explicacion facil:
+ *   sys_pipe cumple una tarea puntual dentro de syscalls de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   uint64 fdarray; // user pointer to array of two integers
   struct file *rf, *wf;
   int fd0, fd1;

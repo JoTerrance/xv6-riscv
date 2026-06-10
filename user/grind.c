@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/grind.c
+ *
+ * Explicacion clara y facil:
+ *   - Programa de usuario tipo utilidad Unix simple.
+ *   - Cada archivo implementa un comando pequeno (cat, ls, grep, etc.) para probar y usar xv6 desde shell.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 //
 // run random system calls in parallel forever.
 //
@@ -16,6 +33,12 @@
 int
 do_rand(unsigned long *ctx)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: do_rand
+ * Explicacion facil:
+ *   do_rand cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   /*
    * Compute x = (7^5 * x) mod (2^31 - 1)
    * without overflowing 31 bits:
@@ -44,12 +67,24 @@ unsigned long rand_next = 1;
 int
 rand(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: rand
+ * Explicacion facil:
+ *   rand cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   return (do_rand(&rand_next));
 }
 
 void
 go(int which_child)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: go
+ * Explicacion facil:
+ *   go cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   int fd = -1;
   static char buf[999];
   char *break0 = sbrk(0);
@@ -296,6 +331,12 @@ go(int which_child)
 void
 iter()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iter
+ * Explicacion facil:
+ *   iter cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   unlink("a");
   unlink("b");
 
@@ -336,6 +377,12 @@ iter()
 int
 main()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: main
+ * Explicacion facil:
+ *   Punto de entrada en este modulo de programas de usuario.
+ *   Coordina inicializacion, llamadas principales y el flujo base de ejecucion.
+ */
   while (1) {
     int pid = fork();
     if (pid == 0) {

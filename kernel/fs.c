@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/fs.c
+ *
+ * Explicacion clara y facil:
+ *   - Sistema de archivos principal.
+ *   - Implementa inodos, directorios, path lookup y operaciones de lectura/escritura persistente sobre bloques.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 // File system implementation.  Five layers:
 //   + Blocks: allocator for raw disk blocks.
 //   + Log: crash recovery for multi-step updates.
@@ -30,6 +47,12 @@ struct superblock sb;
 static void
 readsb(int dev, struct superblock *sb)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: readsb
+ * Explicacion facil:
+ *   Lee el superbloque desde disco y lo guarda en memoria.
+ *   Con esto el kernel conoce tamanos y ubicacion de metadata del FS.
+ */
   struct buf *bp;
 
   bp = bread(dev, 1);
@@ -41,6 +64,12 @@ readsb(int dev, struct superblock *sb)
 void
 fsinit(int dev)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: fsinit
+ * Explicacion facil:
+ *   fsinit cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   readsb(dev, &sb);
   if (sb.magic != FSMAGIC)
     panic("invalid file system");
@@ -52,6 +81,12 @@ fsinit(int dev)
 static void
 bzero(int dev, int bno)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bzero
+ * Explicacion facil:
+ *   bzero cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct buf *bp;
 
   bp = bread(dev, bno);
@@ -67,6 +102,12 @@ bzero(int dev, int bno)
 static uint
 balloc(uint dev)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: balloc
+ * Explicacion facil:
+ *   Busca y reserva un bloque libre en el bitmap de disco.
+ *   Marca el bit, limpia el bloque y devuelve su numero para uso del inode.
+ */
   int b, bi, m;
   struct buf *bp;
 
@@ -93,6 +134,12 @@ balloc(uint dev)
 static void
 bfree(int dev, uint b)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bfree
+ * Explicacion facil:
+ *   Libera un bloque en el bitmap del sistema de archivos.
+ *   Borra su marca de ocupado para que pueda reutilizarse en futuras escrituras.
+ */
   struct buf *bp;
   int bi, m;
 
@@ -183,6 +230,12 @@ struct {
 void
 iinit()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iinit
+ * Explicacion facil:
+ *   Prepara estado inicial de sistema de archivos para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   int i = 0;
 
   initlock(&itable.lock, "itable");
@@ -200,6 +253,12 @@ static struct inode *iget(uint dev, uint inum);
 struct inode *
 ialloc(uint dev, short type)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: ialloc
+ * Explicacion facil:
+ *   Reserva un inode libre en disco y lo inicializa con tipo dado.
+ *   Es el paso base para crear archivos y directorios nuevos.
+ */
   int inum;
   struct buf *bp;
   struct dinode *dip;
@@ -227,6 +286,12 @@ ialloc(uint dev, short type)
 void
 iupdate(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iupdate
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   struct buf *bp;
   struct dinode *dip;
 
@@ -248,6 +313,12 @@ iupdate(struct inode *ip)
 static struct inode *
 iget(uint dev, uint inum)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iget
+ * Explicacion facil:
+ *   iget cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   struct inode *ip, *empty;
 
   acquire(&itable.lock);
@@ -283,6 +354,12 @@ iget(uint dev, uint inum)
 struct inode *
 idup(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: idup
+ * Explicacion facil:
+ *   idup cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   acquire(&itable.lock);
   ip->ref++;
   release(&itable.lock);
@@ -294,6 +371,12 @@ idup(struct inode *ip)
 void
 ilock(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: ilock
+ * Explicacion facil:
+ *   Toma lock del inode y, si hace falta, trae su metadata desde disco.
+ *   Garantiza acceso coherente al estado del inode en memoria.
+ */
   struct buf *bp;
   struct dinode *dip;
 
@@ -322,6 +405,12 @@ ilock(struct inode *ip)
 void
 iunlock(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iunlock
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   if (ip == 0 || !holdingsleep(&ip->lock) || ip->ref < 1)
     panic("iunlock");
 
@@ -338,6 +427,12 @@ iunlock(struct inode *ip)
 void
 iput(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iput
+ * Explicacion facil:
+ *   Suelta una referencia al inode y decide si debe reciclarse.
+ *   Si no hay enlaces ni refs, trunca datos y libera inode en disco.
+ */
   acquire(&itable.lock);
 
   if (ip->ref == 1 && ip->valid && ip->nlink == 0) {
@@ -367,6 +462,12 @@ iput(struct inode *ip)
 void
 iunlockput(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: iunlockput
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   iunlock(ip);
   iput(ip);
 }
@@ -374,6 +475,12 @@ iunlockput(struct inode *ip)
 void
 ireclaim(int dev)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: ireclaim
+ * Explicacion facil:
+ *   ireclaim cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   for (int inum = 1; inum < sb.ninodes; inum++) {
     struct inode *ip = 0;
     struct buf *bp = bread(dev, IBLOCK(inum, sb));
@@ -406,6 +513,12 @@ ireclaim(int dev)
 static uint
 bmap(struct inode *ip, uint bn)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: bmap
+ * Explicacion facil:
+ *   Traduce numero de bloque logico de archivo a bloque fisico en disco.
+ *   Asigna bloques directos o indirectos cuando aun no existen.
+ */
   uint addr, *a;
   struct buf *bp;
 
@@ -449,6 +562,12 @@ bmap(struct inode *ip, uint bn)
 void
 itrunc(struct inode *ip)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: itrunc
+ * Explicacion facil:
+ *   Libera todos los bloques de datos de un inode.
+ *   Deja tamano en cero y limpia punteros directos/indirectos.
+ */
   int i, j;
   struct buf *bp;
   uint *a;
@@ -481,6 +600,12 @@ itrunc(struct inode *ip)
 void
 stati(struct inode *ip, struct stat *st)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: stati
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de sistema de archivos.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   st->dev = ip->dev;
   st->ino = ip->inum;
   st->type = ip->type;
@@ -495,6 +620,12 @@ stati(struct inode *ip, struct stat *st)
 int
 readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: readi
+ * Explicacion facil:
+ *   Lee bytes de un inode hacia un buffer destino.
+ *   Valida limites de offset/tamano y recorre bloques necesarios.
+ */
   uint tot, m;
   struct buf *bp;
 
@@ -529,6 +660,12 @@ readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
 int
 writei(struct inode *ip, int user_src, uint64 src, uint off, uint n)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: writei
+ * Explicacion facil:
+ *   Escribe bytes en un inode desde un buffer origen.
+ *   Reserva bloques cuando crece el archivo y actualiza tamano final.
+ */
   uint tot, m;
   struct buf *bp;
 
@@ -567,6 +704,12 @@ writei(struct inode *ip, int user_src, uint64 src, uint off, uint n)
 int
 namecmp(const char *s, const char *t)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: namecmp
+ * Explicacion facil:
+ *   namecmp cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   return strncmp(s, t, DIRSIZ);
 }
 
@@ -575,6 +718,12 @@ namecmp(const char *s, const char *t)
 struct inode *
 dirlookup(struct inode *dp, char *name, uint *poff)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: dirlookup
+ * Explicacion facil:
+ *   Busca una entrada de nombre dentro de un directorio.
+ *   Si la encuentra, devuelve el inode asociado y opcionalmente su offset.
+ */
   uint off, inum;
   struct dirent de;
 
@@ -603,6 +752,12 @@ dirlookup(struct inode *dp, char *name, uint *poff)
 int
 dirlink(struct inode *dp, char *name, uint inum)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: dirlink
+ * Explicacion facil:
+ *   Agrega una nueva entrada nombre->inum dentro de un directorio.
+ *   Falla si el nombre ya existe para mantener consistencia de rutas.
+ */
   int off;
   struct dirent de;
   struct inode *ip;
@@ -646,6 +801,12 @@ dirlink(struct inode *dp, char *name, uint inum)
 static char *
 skipelem(char *path, char *name)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: skipelem
+ * Explicacion facil:
+ *   skipelem cumple una tarea puntual dentro de sistema de archivos.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *s;
   int len;
 
@@ -675,6 +836,12 @@ skipelem(char *path, char *name)
 static struct inode *
 namex(char *path, int nameiparent, char *name)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: namex
+ * Explicacion facil:
+ *   Resuelve una ruta por componentes, paso a paso.
+ *   Soporta devolver inode final o padre segun se use para lookup o creacion.
+ */
   struct inode *ip, *next;
 
   if (*path == '/')
@@ -710,6 +877,12 @@ namex(char *path, int nameiparent, char *name)
 struct inode *
 namei(char *path)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: namei
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   char name[DIRSIZ];
   return namex(path, 0, name);
 }
@@ -717,5 +890,11 @@ namei(char *path)
 struct inode *
 nameiparent(char *path, char *name)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: nameiparent
+ * Explicacion facil:
+ *   Resuelve rutas, inodos o bloques del sistema de archivos.
+ *   Combina lookup, validaciones y actualizaciones para mantener coherencia en disco.
+ */
   return namex(path, 1, name);
 }

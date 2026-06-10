@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: user/umalloc.c
+ *
+ * Explicacion clara y facil:
+ *   - Asignador de memoria en espacio de usuario.
+ *   - Proporciona malloc/free sencillos para programas de usuario sobre sbrk.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "kernel/types.h"
 #include "kernel/stat.h"
 #include "user/user.h"
@@ -24,6 +41,12 @@ static Header *freep;
 void
 free(void *ap)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: free
+ * Explicacion facil:
+ *   Libera recursos previamente asignados en programas de usuario.
+ *   Evita fugas y deja estructuras en estado coherente para usos futuros.
+ */
   Header *bp, *p;
 
   bp = (Header *)ap - 1;
@@ -46,6 +69,12 @@ free(void *ap)
 static Header *
 morecore(uint nu)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: morecore
+ * Explicacion facil:
+ *   morecore cumple una tarea puntual dentro de programa de usuario.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   char *p;
   Header *hp;
 
@@ -63,6 +92,12 @@ morecore(uint nu)
 void *
 malloc(uint nbytes)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: malloc
+ * Explicacion facil:
+ *   Reserva o libera recursos de programa de usuario segun haga falta.
+ *   Si hay error, corta temprano para no dejar estructuras en estado inconsistente.
+ */
   Header *p, *prevp;
   uint nunits;
 

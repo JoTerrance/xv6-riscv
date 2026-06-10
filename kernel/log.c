@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/log.c
+ *
+ * Explicacion clara y facil:
+ *   - Logging transaccional del sistema de archivos.
+ *   - Asegura consistencia ante fallos registrando cambios de bloques en un log antes de aplicarlos de forma definitiva.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "riscv.h"
 #include "defs.h"
@@ -53,6 +70,12 @@ static void commit();
 void
 initlog(int dev, struct superblock *sb)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: initlog
+ * Explicacion facil:
+ *   Prepara estado inicial de log del sistema de archivos para que el resto del codigo funcione bien.
+ *   Suele crear estructuras base, locks y valores por defecto antes de usarlos.
+ */
   if (sizeof(struct logheader) >= BSIZE)
     panic("initlog: too big logheader");
 
@@ -66,6 +89,12 @@ initlog(int dev, struct superblock *sb)
 static void
 install_trans(int recovering)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: install_trans
+ * Explicacion facil:
+ *   Participa en el flujo transaccional del log del FS.
+ *   Ayuda a que los cambios sean atomicos y recuperables despues de un fallo.
+ */
   int tail;
 
   for (tail = 0; tail < log.lh.n; tail++) {
@@ -87,6 +116,12 @@ install_trans(int recovering)
 static void
 read_head(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: read_head
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de log del sistema de archivos.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   struct buf *buf = bread(log.dev, log.start);
   struct logheader *lh = (struct logheader *)(buf->data);
   int i;
@@ -103,6 +138,12 @@ read_head(void)
 static void
 write_head(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: write_head
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de log del sistema de archivos.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   struct buf *buf = bread(log.dev, log.start);
   struct logheader *hb = (struct logheader *)(buf->data);
   int i;
@@ -117,6 +158,12 @@ write_head(void)
 static void
 recover_from_log(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: recover_from_log
+ * Explicacion facil:
+ *   Recupera estado tras crash usando la cabecera de log en disco.
+ *   Si hay transaccion pendiente, la reinstala para restaurar consistencia.
+ */
   read_head();
   install_trans(1); // if committed, copy from log to disk
   log.lh.n = 0;
@@ -127,6 +174,12 @@ recover_from_log(void)
 void
 begin_op(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: begin_op
+ * Explicacion facil:
+ *   Inicia una operacion de FS protegida por el log transaccional.
+ *   Puede dormir si no hay espacio de log suficiente para garantizar atomicidad.
+ */
   acquire(&log.lock);
   while (1) {
     if (log.committing) {
@@ -147,6 +200,12 @@ begin_op(void)
 void
 end_op(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: end_op
+ * Explicacion facil:
+ *   Finaliza una operacion de FS y dispara commit si corresponde.
+ *   Coordina concurrencia para que el commit ocurra en momento seguro.
+ */
   int do_commit = 0;
 
   acquire(&log.lock);
@@ -179,6 +238,12 @@ end_op(void)
 static void
 write_log(void)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: write_log
+ * Explicacion facil:
+ *   Hace operaciones de entrada/salida de datos dentro de log del sistema de archivos.
+ *   Controla limites y sincronizacion para mantener datos correctos y consistentes.
+ */
   int tail;
 
   for (tail = 0; tail < log.lh.n; tail++) {
@@ -194,6 +259,12 @@ write_log(void)
 static void
 commit()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: commit
+ * Explicacion facil:
+ *   Aplica transaccion: escribe log, marca cabecera y copia al area final.
+ *   Luego limpia cabecera para dejar el sistema consistente tras reinicios.
+ */
   if (log.lh.n > 0) {
     write_log();      // Write modified blocks from cache to log
     write_head();     // Write header to disk -- the real commit
@@ -215,6 +286,12 @@ commit()
 void
 log_write(struct buf *b)
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: log_write
+ * Explicacion facil:
+ *   Registra en el log un bloque modificado por la transaccion actual.
+ *   Evita duplicados del mismo bloque para no desperdiciar espacio de journal.
+ */
   int i;
 
   acquire(&log.lock);

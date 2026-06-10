@@ -1,3 +1,20 @@
+/*
+ * AUTOCOMMENT-XV6: comentario agregado automaticamente para explicar el archivo.
+ * Archivo: kernel/start.c
+ *
+ * Explicacion clara y facil:
+ *   - Arranque temprano por CPU.
+ *   - Configura estado minimo de maquina antes de saltar a la inicializacion principal del kernel.
+ *
+ * Como leer este archivo:
+ *   1) Busca las estructuras principales y entiende que estado guardan.
+ *   2) Revisa las funciones publicas (las que llaman otros modulos).
+ *   3) Luego estudia helpers internos para ver el flujo completo.
+ *
+ * Nota:
+ *   Estos comentarios son una guia pedagogica; la verdad final siempre es el codigo.
+ */
+
 #include "types.h"
 #include "param.h"
 #include "memlayout.h"
@@ -14,6 +31,12 @@ __attribute__((aligned(16))) char stack0[4096 * NCPU];
 void
 start()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: start
+ * Explicacion facil:
+ *   start cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   // set M Previous Privilege mode to Supervisor, for mret.
   unsigned long x = r_mstatus();
   x &= ~MSTATUS_MPP_MASK;
@@ -52,6 +75,12 @@ start()
 void
 timerinit()
 {
+/*
+ * AUTOCOMMENT-FUNC-DEF: timerinit
+ * Explicacion facil:
+ *   timerinit cumple una tarea puntual dentro de modulo.
+ *   Para entenderla rapido, mira que recibe, que valida y que efecto deja al terminar.
+ */
   // enable the sstc extension (i.e. stimecmp).
   w_menvcfg(r_menvcfg() | (1L << 63));
 
