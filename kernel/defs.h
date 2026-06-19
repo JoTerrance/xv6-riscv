@@ -116,12 +116,12 @@ int             piperead(struct pipe*, uint64, int);
 // AUTOCOMMENT-FUNC-PROTO: piperead -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 int             pipewrite(struct pipe*, uint64, int);
 
-// printf.c
-int             printf(char*, ...) __attribute__ ((format (printf, 1, 2)));
-// AUTOCOMMENT-FUNC-PROTO: printf -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
+// printk.c
+int             printk(char*, ...) __attribute__ ((format (printf, 1, 2)));
+// AUTOCOMMENT-FUNC-PROTO: printk -> declaracion publica del modulo de kernel; su implementacion define validaciones y efectos.
 void            panic(char*) __attribute__((noreturn));
-void            printfinit(void);
-// AUTOCOMMENT-FUNC-PROTO: printfinit -> inicializa estado de kernel antes de que el resto del modulo lo use.
+void            printkinit(void);
+// AUTOCOMMENT-FUNC-PROTO: printkinit -> inicializa estado de kernel antes de que el resto del modulo lo use.
 
 // proc.c
 int             cpuid(void);
